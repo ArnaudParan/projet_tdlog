@@ -1,115 +1,211 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-* {
-    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+.tab-bar {
+	font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-weight: 400;
+	font-size: 17px;
+	display: table;
+	table-layout: fixed;
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	white-space: nowrap;
+	margin: 0;
+	padding: 0;
+	height: 49px;
+	background-color: #ffffff;
+	border-top: 1px solid rgba(0,0,0,.0);
+	width: 100%;
 }
-
-body {
-    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
-    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
-    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#E4E4E4;
-    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0, #A7A7A7),
-        color-stop(0.51, #E4E4E4)
-    );
-    background-attachment:fixed;
-    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
-    font-size:12px;
-    height:100%;
-    margin:0px;
-    padding:0px;
-    text-transform:uppercase;
-    width:100%;
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+	.tab-bar {
+		border-top: none;
+		-webkit-background-size: 100% 1px;
+		background-size: 100% 1px;
+		background-repeat: no-repeat;
+		background-position: top;
+		background-image: -webkit-linear-gradient(270deg, rgba(0,0,0,.0), rgba(0,0,0,.0) 50%, transparent 50%);
+		background-image: -moz-linear-gradient(270deg, rgba(0,0,0,.0), rgba(0,0,0,.0) 50%, transparent 50%);
+		background-image: -o-linear-gradient(270deg, rgba(0,0,0,.0), rgba(0,0,0,.0) 50%, transparent 50%);
+		background-image: linear-gradient(180deg, rgba(0,0,0,.0), rgba(0,0,0,.0) 50%, transparent 50%);
+	}
 }
-
-/* Portrait layout (default) */
-.app {
-    background:url(../img/logo.png) no-repeat center top; /* 170px x 200px */
-    position:absolute;             /* position in the center of the screen */
-    left:50%;
-    top:50%;
-    height:50px;                   /* text area height */
-    width:225px;                   /* text area width */
-    text-align:center;
-    padding:180px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */
-    margin:-115px 0px 0px -112px;  /* offset vertical: half of image height and text area height */
-                                   /* offset horizontal: half of text area width */
+.tab-bar__item {
+	font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-weight: 400;
+	font-size: 17px;
+	position: relative;
+	overflow: hidden;
+	display: table-cell;
+	width: auto;
+	-webkit-border-radius: 0;
+	border-radius: 0;
 }
-
-/* Landscape layout (with min-width) */
-@media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
-    .app {
-        background-position:left center;
-        padding:75px 0px 75px 170px;  /* padding-top + padding-bottom + text area = image height */
-        margin:-90px 0px 0px -198px;  /* offset vertical: half of image height */
-                                      /* offset horizontal: half of image width and text area width */
-    }
+.tab-bar__item > input {
+	position: absolute;
+	overflow: hidden;
+	right: 0px;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	padding: 0;
+	border: 0;
+	opacity: 0.001;
+	z-index: 1;
+	vertical-align: top;
+	outline: none;
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	-webkit-appearance: none;
+	appearance: none;
 }
-
-h1 {
-    font-size:24px;
-    font-weight:normal;
-    margin:0px;
-    overflow:visible;
-    padding:0px;
-    text-align:center;
+.tab-bar__button {
+	position: relative;
+	display: inline-block;
+	vertical-align: top;
+	font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-weight: 400;
+	font-size: 17px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	padding: 0;
+	margin: 0;
+	font: inherit;
+	color: inherit;
+	background: transparent;
+	border: none;
+	line-height: normal;
+	cursor: default;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	text-decoration: none;
+	padding: 0;
+	height: 49px;
+	letter-spacing: 0;
+	color: #999;
+	text-shadow: 0 1px none;
+	vertical-align: top;
+	background-color: transparent;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	border-top: none;
+	width: 100%;
+	font-weight: 400;
+	line-height: 49px;
 }
-
-.event {
-    border-radius:4px;
-    -webkit-border-radius:4px;
-    color:#FFFFFF;
-    font-size:12px;
-    margin:0px 30px;
-    padding:2px 0px;
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+	.tab-bar__button {
+		border-top: none;
+	}
 }
-
-.event.listening {
-    background-color:#333333;
-    display:block;
+.tab-bar__icon {
+	font-size: 24px;
+	padding: 0;
+	margin: 0;
+	line-height: 32px;
+	display: block;
+	height: 32px;
 }
-
-.event.received {
-    background-color:#4B946A;
-    display:none;
+.tab-bar__label {
+	font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-weight: 400;
+	font-size: 17px;
 }
-
-@keyframes fade {
-    from { opacity: 1.0; }
-    50% { opacity: 0.4; }
-    to { opacity: 1.0; }
+.tab-bar__icon + .tab-bar__label {
+	font-size: 10px;
+	line-height: 1;
+	margin: 0;
+	font-weight: 400;
 }
- 
-@-webkit-keyframes fade {
-    from { opacity: 1.0; }
-    50% { opacity: 0.4; }
-    to { opacity: 1.0; }
+.tab-bar__label:first-child {
+	font-size: 16px;
+	line-height: 49px;
+	margin: 0;
+	padding: 0;
 }
- 
-.blink {
-    animation:fade 3000ms infinite;
-    -webkit-animation:fade 3000ms infinite;
+.tab-bar__button {
+	color: #999;
+}
+:checked + .tab-bar__button {
+	color: #651f85;
+	background-color: transparent;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	border-top: none;
+}
+:checked + .tab-bar__button > .tab-bar__icon {
+	color: #651f85;
+}
+.tab-bar__button:disabled {
+	opacity: 0.3;
+	cursor: default;
+	pointer-events: none;
+}
+.tab-bar__button:focus {
+	z-index: 1;
+	border-top: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	outline: 0;
+}
+.tab-bar__content {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 49px;
+	z-index: 0;
+}
+.tab-bar--top {
+	position: relative;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: auto;
+	border-top: none;
+	border-bottom: 1px solid rgba(0,0,0,.0);
+}
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+	.tab-bar--top {
+		border-bottom: none;
+		-webkit-background-size: 100% 1px;
+		background-size: 100% 1px;
+		background-repeat: no-repeat;
+		background-position: bottom;
+		background-image: -webkit-linear-gradient(90deg, rgba(0,0,0,.0), rgba(0,0,0,.0) 50%, transparent 50%);
+		background-image: -moz-linear-gradient(90deg, rgba(0,0,0,.0), rgba(0,0,0,.0) 50%, transparent 50%);
+		background-image: -o-linear-gradient(90deg, rgba(0,0,0,.0), rgba(0,0,0,.0) 50%, transparent 50%);
+		background-image: linear-gradient(0deg, rgba(0,0,0,.0), rgba(0,0,0,.0) 50%, transparent 50%);
+	}
+}
+.tab-bar--top__content {
+	top: 49px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 0;
+}
+.tab-bar--top-border__button {
+	background-color: transparent;
+	border-bottom: 4px solid transparent;
+}
+:checked + .tab-bar--top-border__button {
+	background-color: transparent;
+	border-bottom: 4px solid #651f85;
 }

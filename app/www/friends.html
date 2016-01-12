@@ -12,10 +12,11 @@
 <script>
 ons.bootstrap();
 </script>
+<script src="js/test_friends.js"></script>
+<script src="js/friends.js"></script>
 
 </head>
-<body>
-
+<body ng-app="Friends">
 <ons-tabbar>
 <ons-tab page="people.html">
 <ons-icon icon="ion-ios7-chatboxes" class="tab-icon">
@@ -55,9 +56,10 @@ ons.bootstrap();
   </div>
 </div>
 
-<Friend_Management id='friend_list'>
+<div ng-controller="Friend_Controller" id='friend_list'>
 <ons-list class="person-list">
-<ons-list-header class="person-list-header">{{char}}</ons-list-header>
+<ons-list-item>
+</ons-list-item>
 <ons-list-item class="person" modifier="tappable" ng-repeat="(key,friend) in friends">
 <ons-row>
 <ons-col width="40px">
@@ -72,12 +74,11 @@ ons.bootstrap();
 </ons-row>
 </ons-list-item>
 </ons-list>
-</Friend_Management>
+</div>
 
 
 
 </ons-page>
 </ons-template>
-
 </body>
 </html>

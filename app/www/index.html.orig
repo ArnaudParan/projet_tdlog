@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<<<<<<< HEAD
+<meta charset="utf-8">
+<link rel="stylesheet" href="bower_components/OnsenUI/css/onsenui.css"/>
+<link rel="stylesheet" href="bower_components/OnsenUI/css/onsen-css-components.css"/>
+<script src="bower_components/angular/angular.min.js"></script>
+<script src="bower_components/OnsenUI/js/onsenui.min.js"></script>
+<script>
+var module = ons.bootstrap('my-app', ['onsen']);
+module.controller('AppController', function($scope) { });
+module.controller('PageController', function($scope) {
+		ons.ready(function() {
+			// Init code here
+			});
+		});
+</script>
+</head>
+<body ng-controller="AppController">
+
+
+<ons-navigator title="Navigator" var="myNavigator">
+<ons-page>
+<ons-tabbar animation="fade" position="top">
+<ons-tab page="page1.html" label="Page 1" active="true"></ons-tab>
+<ons-tab page="page2.html" label="Page 2"></ons-tab>
+<ons-tab page="page3.html" label="Page 3"></ons-tab>
+</ons-tabbar>
+</ons-page>
+</ons-navigator>
+
+<ons-template id="page1.html">
+<ons-page>
+<div style="text-align: center">
+	Page 1
+</div>
+</ons-page>
+</ons-template>
+
+<ons-template id="page2.html">
+<ons-page>
+<div style="text-align: center">
+	Page 2
+</div>
+</ons-page>
+</ons-template>
+
+<ons-template id="page3.html">
+<ons-page>
+<div style="text-align: center">
+	Page 3
+</div>
+</ons-page>
+</ons-template>
+
+</ons-navigator>
+<script type="text/javascript" src="cordova.js"></script>
+=======
+<!--
+        Customize this policy to fit your own app's needs. For more guidance, see:
+            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+        Some notes:
+            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+                * Enable inline JS: add 'unsafe-inline' to default-src
+        -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+<meta name="format-detection" content="telephone=no">
+<meta name="msapplication-tap-highlight" content="no">
+<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+<!--TODO supprimmer la ligne--><link rel="stylesheet" type="text/css" href="css/index.css">
+<title><!--TODO-->Simon aime les raviolis</title>
+</head>
+<body>
+<h1> Eloise </h1>
+<script type="text/javascript" src="cordova.js"></script>
+<!--TODO supprimmer la ligne--><script type="text/javascript" src="js/index.js"></script>
+ <button type="button"> badass button </button> 
+>>>>>>> 79bce0b2d44a50d3f0954e76aa742765f16e6e15
+</body>
+</html>
+

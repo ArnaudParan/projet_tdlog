@@ -1,23 +1,18 @@
-var app = angular.module('Friends', []);
+var appFriends = angular.module('appFriends', ['onsen']);
 
-var get_friends = mock_get_all_friends;
-
-app.controller('Friend_Controller', ['$scope', function($scope) {
-  $scope.friends = get_friends();
+appFriends.controller('friend_Controller', ['$scope', function($scope) {
+  $rootscope.friends = get_friends();
   $scope.test = true;
 }])
 
-app.controller('blabla', ['$scope', function($scope) {
-  $scope.test = true;
+appFriends.controller('research_bar', ['$scope', function($scope) {
+  $scope.request = "";
 }])
 
-app.directive('Friend_Management', function() {
+appFriends.directive('friendFilter', function() {
   return {
-    restrict: 'EA',
-    scope: {
-      friend: '=friend'
-    },
-    templateUrl: 'friend_info.html'
-  };
+    restrict: 'E',
+    scope.$watch(request, function(){
+		friends = get_matching_friends(request);
+	});
 });
-

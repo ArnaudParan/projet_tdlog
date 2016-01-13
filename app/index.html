@@ -1,42 +1,83 @@
 <!doctype html>
-<html lang="fr" ng-app="AppController">
-<head>
-<meta charset="utf-8">
-<link rel="stylesheet" href="bower_components/OnsenUI/css/onsenui.css"/>
-<link rel="stylesheet" href="bower_components/OnsenUI/css/onsen-css-components-blue-theme.css"/>
-<link rel="stylesheet" href="bower_components/OnsenUI/css/ionicons/css/ionicons.css"/>
-<link rel="stylesheet" href="css/index.css"/>
-<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
-<script type="text/javascript" src="bower_components/OnsenUI/js/onsenui.min.js"></script>
-<script type="text/javascript" src="bower_components/OnsenUI/js/onsenui_all.min.js"></script>
-<script type="text/javascript" src="js/index.js"></script>
-<script>
-ons.bootstrap()
-</script>
-</head>
-<body ng-controller="AppController">
-<div class="tab-bar tab-bar--top tab-bar--top-border">
-  <label class="tab-bar__item tab-bar--top-border__item">
-    <input type="radio" name="top-tab-bar-b" checked="checked">
-    <button class="tab-bar__button tab-bar--top-border__button">
-      Home
-    </button>
-  </label>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+  </head>
+  <body ng-app="projetTdlogMasterApp">
+    <!--[if lte IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
 
-  <label class="tab-bar__item tab-bar--top-border__item">
-    <input type="radio" name="top-tab-bar-b">
-    <button class="tab-bar__button tab-bar--top-border__button">
-      Comments
-    </button>
-  </label>
+    <!-- Add your site or application content here -->
+    <div class="header">
+      <div class="navbar navbar-default" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
 
-  <label class="tab-bar__item tab-bar--top-border__item">
-    <input type="radio" name="top-tab-bar-b">
-    <button class="tab-bar__button tab-bar--top-border__button">
-      Activity
-    </button>
-  </label>
-</div>
-<script type="text/javascript" src="cordova.js"></script>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+            <a class="navbar-brand" href="#/">projetTdlogMaster</a>
+          </div>
+
+          <div class="collapse navbar-collapse" id="js-navbar-collapse">
+
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#/">Home</a></li>
+              <li><a ng-href="#/about">About</a></li>
+              <li><a ng-href="#/">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+    <div ng-view=""></div>
+    </div>
+
+    <div class="footer">
+      <div class="container">
+        <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
+      </div>
+    </div>
+
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+     <script>
+       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+       (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
+       r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
+       }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-XXXXX-X');
+       ga('send', 'pageview');
+    </script>
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <!-- endbower -->
+    <!-- endbuild -->
+
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="scripts/app.js"></script>
+        <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/controllers/about.js"></script>
+        <!-- endbuild -->
 </body>
 </html>

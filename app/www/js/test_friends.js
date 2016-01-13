@@ -8,6 +8,12 @@ var users = Array({"name" : "paran",
 			"tel" : "+33750332043",
 			"mail" : "simon.lebastard@eleves.enpc.fr"}
 		)
+		
+var users2 = Array({"name" : "paran",
+			"surname" : "arnaud",
+			"tel" : "+33650544817",
+			"mail" : "paran.arnaud@gmail.com"}
+		)
 
 function test_search_user(assert)
 {
@@ -16,6 +22,11 @@ function test_search_user(assert)
 var mock_get_all_friends = function ()
 {
 	return users;
+}
+
+var mock_get_req_friends = function (request)
+{
+	return users2;
 }
 
 function mock_user_searching(keyword)

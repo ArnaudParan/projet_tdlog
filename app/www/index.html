@@ -1,60 +1,42 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" ng-app="AppController">
 <head>
-<<<<<<< HEAD
 <meta charset="utf-8">
 <link rel="stylesheet" href="bower_components/OnsenUI/css/onsenui.css"/>
 <link rel="stylesheet" href="bower_components/OnsenUI/css/onsen-css-components-blue-theme.css"/>
-<script src="bower_components/angular/angular.min.js"></script>
-<script src="bower_components/OnsenUI/js/onsenui.min.js"></script>
+<link rel="stylesheet" href="bower_components/OnsenUI/css/ionicons/css/ionicons.css"/>
+<link rel="stylesheet" href="css/index.css"/>
+<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+<script type="text/javascript" src="bower_components/OnsenUI/js/onsenui.min.js"></script>
+<script type="text/javascript" src="bower_components/OnsenUI/js/onsenui_all.min.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
 <script>
-var module = ons.bootstrap('my-app', ['onsen']);
-module.controller('AppController', function($scope) { });
-module.controller('PageController', function($scope) {
-		ons.ready(function() {
-			// Init code here
-			});
-		});
+ons.bootstrap()
 </script>
 </head>
 <body ng-controller="AppController">
+<div class="tab-bar tab-bar--top tab-bar--top-border">
+  <label class="tab-bar__item tab-bar--top-border__item">
+    <input type="radio" name="top-tab-bar-b" checked="checked">
+    <button class="tab-bar__button tab-bar--top-border__button">
+      Home
+    </button>
+  </label>
 
+  <label class="tab-bar__item tab-bar--top-border__item">
+    <input type="radio" name="top-tab-bar-b">
+    <button class="tab-bar__button tab-bar--top-border__button">
+      Comments
+    </button>
+  </label>
 
-<ons-navigator title="Navigator" var="myNavigator">
-<ons-page>
-<ons-tabbar animation="fade" position="top">
-<ons-tab page="page1.html" label="Page 1" active="true"></ons-tab>
-<ons-tab page="page2.html" label="Page 2"></ons-tab>
-<ons-tab page="page3.html" label="Page 3"></ons-tab>
-</ons-tabbar>
-</ons-page>
-</ons-navigator>
-
-<ons-template id="page1.html">
-<ons-page>
-<div style="text-align: center">
-	Page 1
+  <label class="tab-bar__item tab-bar--top-border__item">
+    <input type="radio" name="top-tab-bar-b">
+    <button class="tab-bar__button tab-bar--top-border__button">
+      Activity
+    </button>
+  </label>
 </div>
-</ons-page>
-</ons-template>
-
-<ons-template id="page2.html">
-<ons-page>
-<div style="text-align: center">
-	Page 2
-</div>
-</ons-page>
-</ons-template>
-
-<ons-template id="page3.html">
-<ons-page>
-<div style="text-align: center">
-	Page 3
-</div>
-</ons-page>
-</ons-template>
-
-</ons-navigator>
 <script type="text/javascript" src="cordova.js"></script>
 </body>
 </html>

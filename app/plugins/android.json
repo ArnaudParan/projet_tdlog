@@ -9,6 +9,10 @@
     "installed_plugins": {
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.example.hello"
+        },
+        "plugin.google.maps": {
+            "API_KEY_FOR_ANDROID": "AIzaSyCDAACVYIxClwbe9ieytpu_HIGPcVwC2QQ",
+            "PACKAGE_NAME": "com.example.hello"
         }
     },
     "dependent_plugins": {}

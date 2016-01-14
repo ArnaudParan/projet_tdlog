@@ -47,7 +47,7 @@ mock.external.externalDB.prototype.set_pass = function(mail, password, new_passw
 
 mock.external.externalDB.prototype.add_user = function(name, surname, mail, tel, password)
 {
-	for (user in this.users) {
+	for (user of this.users) {
 		if (user.mail == mail) {
 			throw new CommonException(1001);
 			return;
@@ -95,79 +95,6 @@ mock.external.externalDB.prototype.is_tel = function(tel)
 	{
 		return false;
 	}
-}
-
-//////////////////////////////////
-
-mock.external.externalDB.prototype.get_user_mail = function()
-{
-	return this.user.mail;
-}
-
-mock.external.externalDB.prototype.get_user_password = function()
-{
-	return this.user.password;
-}
-
-mock.external.externalDB.prototype.get_all_friends_id_names_tel = function()
-{
-	var transcripted_friends_id = Array();
-	for (friend of this.friends_id) {
-		var current_friend = {
-			name : friend.name,
-			surname : friend.surname,
-			tel : friend.tel};
-		transcripted_friends_id.push(current_friend);
-	}
-	return transcripted_friends_id;
-}
-
-mock.external.externalDB.prototype.search_friends_id = function(keyword)
-{
-	var matching_friends_id = Array();
-	for (friend of this.friends_id) {
-		if(this.match_keyword_friend(keyword, friend)){
-			matching_friends_id.push(friend);
-		}
-	}
-	return matching_friends_id;
-}
-
-mock.external.externalDB.prototype.match_keyword_friend = function(keyword, friend)
-{
-	if(mock.is_substr(keyword, friend.name)) {
-		return true;
-	}
-	if(mock.is_substr(keyword, friend.surname)) {
-		return true;
-	}
-	if(mock.is_substr(keyword, friend.mail)) {
-		return true;
-	}
-	if(mock.corresponding_tel(keyword, friend.tel)) {
-		return true;
-	}
-	return false;
-}
-
-mock.is_substr = function(keyword, word)
-{
-	if (word.indexOf(keyword) > -1) {
-		return true;
-	}
-	return false;
-}
-
-mock.corresponding_tel = function(keyword, tel)
-{
-	if (tel.indexOf(keyword) > -1) {
-		return true;
-	}
-	var country_tel = "0" + tel.substring(3);
-	if (country_tel.indexOf(keyword) > -1) {
-		return true;
-	}
-	return false;
 }
 
 mock.external.Event = function(id, name, owner, participants, position, address)

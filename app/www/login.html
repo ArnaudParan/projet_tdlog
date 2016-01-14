@@ -9,24 +9,33 @@
 
 <script src="bower_components/angular/angular.min.js"></script>
 <script src="bower_components/OnsenUI/js/onsenui.min.js"></script>
-<script>
-ons.bootstrap();
-</script>
+<script src="js/exceptions.js"></script>
+<script src="js/connexion.js"></script>
+<script src="js/abstractLocalDB.js"></script>
+<script src="js/abstractExternalDB.js"></script>
+
+<!-- Test version -->
+<script src="js/mocks/localDBMock.js"></script>
+<script src="js/mocks/externalDBMock.js"></script>
+
+<script src="js/global_variables.js"></script>
+<script src="js/connexion.js"></script>
 </head>
-<body>
+<body ng-app="Login">
 <ons-page>
 <ons-toolbar>
 <div class="center">Log In</div>
 <div class="right"><ons-toolbar-button>Close</ons-toolbar-button></div>
 </ons-toolbar>
 
-<div class="login-form">
+<div  ng-controller="login_form" class="login-form">
 
-  <input type="email" class="text-input--underbar" placeholder="Email" value="">
-  <input type="password" class="text-input--underbar" placeholder="Password" value="">
+  <input ng-model="mail" type="text" class="text-input--underbar" placeholder="Email" value="">
+  <input ng-model="pass" type="password" class="text-input--underbar" placeholder="Password" value="">
   <br><br>
-  <ons-button modifier="large" class="login-button">Log In</ons-button>
+  <ons-button ng-click="confirm_log(mail, pass)" modifier="large" class="login-button">Log In</ons-button>
   <br><br>
+  <ons-button ng-click="" modifier="quiet" class="forgot-password">Create an account</ons-button>
   <ons-button modifier="quiet" class="forgot-password">Forgot password?</ons-button>
 </div>
 

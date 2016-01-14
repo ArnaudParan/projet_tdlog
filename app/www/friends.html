@@ -10,7 +10,8 @@
 	<script src="bower_components/angular/angular.min.js"></script>
 	<script src="bower_components/OnsenUI/js/onsenui.min.js"></script>
 
-	<script src="js/test_friends.js"></script>
+	<script src="js/abstractLocalDB.js"></script>
+	<script src="js/mocks/localDBMock.js"></script>
 	<script src="js/global_variables.js"></script>
 	<script src="js/friends.js"></script>
 
@@ -49,8 +50,7 @@
 	
 	<div class="navigation-bar">
 		<div class="navigation-bar__center" ng-controller="research_bar">
-			<input type="search" class="search-input" style="width: 96%; margin: 6px auto 6px auto;" placeholder="Search" ng-model='request' >
-			<friendFilter></friendFilter>				
+			<input type="search" class="search-input" style="width: 96%; margin: 6px auto 6px auto;" placeholder="Search" ng-model='request' >			
 		</div>
 	</div>
 	

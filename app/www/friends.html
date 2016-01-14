@@ -43,7 +43,7 @@
 		</div>
 		<div class="right">
 			<ons-toolbar-button>
-				<ons-icon icon="ion-plus" fixed-width="false" style="vertical-align: -4px;"></ons-icon>
+				<ons-icon icon="ion-plus" fixed-width="false" style="vertical-align: -4px;" ng-click="friend_request()"></ons-icon>
 			</ons-toolbar-button>
 		</div>
 	</ons-toolbar>
@@ -56,9 +56,6 @@
 	
 	<div id='friend_list'>
 		<ons-list class="person-list">
-			<ons-list-item>
-			{{request}}
-			</ons-list-item>
 			<ons-list-item class="person" modifier="tappable" ng-repeat="(key,friend) in friends">
 				<ons-row>
 					<ons-col width="40px">

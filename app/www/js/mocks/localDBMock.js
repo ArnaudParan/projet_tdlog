@@ -37,6 +37,10 @@ mock.local.localDB.prototype.get_user_password = function()
 	return this.user.password;
 }
 
+mock.local.localDB.prototype.add_event = function(eventId, name, creatorId, participantsId, latitude, longitude, address, date)
+{
+}
+
 mock.local.localDB.prototype.add_friend = function(id, tel, name)
 {
 	//TODO
@@ -44,9 +48,11 @@ mock.local.localDB.prototype.add_friend = function(id, tel, name)
 
 mock.local.localDB.prototype.get_all_friends_names_tel = function()
 {
+	//TODO give Id and test
 	var transcripted_friends = Array();
 	for (friend of this.friends) {
 		var current_friend = {
+			id : friend.id,
 			name : friend.name,
 			surname : friend.surname,
 			tel : friend.tel};

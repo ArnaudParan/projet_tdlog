@@ -31,7 +31,13 @@ mock.external.externalDB.prototype.log_user = function(mail, password)
 	return false;
 }
 
-mock.external.externalDB.prototype.search_user = function(keywords)
+mock.external.externalDB.prototype.create_event = function(mail, password, event_name, addr, latitude, longitude, participantsId, date)
+{
+	//TODO sends a request and throws a CommonException(1004) if unable to create the event and a CommonException(1000) if unable to login
+	//returns the event id if successful
+}
+
+mock.external.externalDB.prototype.search_user = function(mail, password, keywords)
 {
 	//TODO returns an id if exists, and throws a CommonException(1003) if the user does not exist
 }

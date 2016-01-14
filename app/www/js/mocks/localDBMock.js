@@ -37,6 +37,11 @@ mock.local.localDB.prototype.get_user_password = function()
 	return this.user.password;
 }
 
+mock.local.localDB.prototype.add_friend = function(id, tel, name)
+{
+	//TODO
+}
+
 mock.local.localDB.prototype.get_all_friends_names_tel = function()
 {
 	var transcripted_friends = Array();
@@ -50,11 +55,18 @@ mock.local.localDB.prototype.get_all_friends_names_tel = function()
 	return transcripted_friends;
 }
 
-mock.local.localDB.prototype.search_friends = function(keyword)
+mock.local.localDB.prototype.search_friends = function(keywords)
 {
+	var keywordsArray = keywords.split(" ");
 	var matching_friends = Array();
 	for (friend of this.friends) {
-		if(this.match_keyword_friend(keyword, friend)){
+		var keywords_match = true;
+		for (keyword of keywordsArray) {
+			console.log(keyword);
+			var wordMatch = this.match_keyword_friend(keyword, friend);
+			keywords_match = keywords_match && wordMatch;
+		}
+		if(keywords_match){
 			matching_friends.push(friend);
 		}
 	}

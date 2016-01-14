@@ -31,6 +31,11 @@ mock.external.externalDB.prototype.log_user = function(mail, password)
 	return false;
 }
 
+mock.external.externalDB.prototype.search_user = function(keywords)
+{
+	//TODO returns an id if exists, and throws a CommonException(1003) if the user does not exist
+}
+
 mock.external.externalDB.prototype.set_pass = function(mail, password, new_password)
 {
 	if (this.log_user(mail, password)) {

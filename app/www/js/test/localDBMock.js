@@ -42,15 +42,22 @@ suite.search_friends = function(assert)
 	//TODO test substrings
 	var tel0 = "0650544817";
 	var friend0 = vars.DB.search_friends(tel0);
-	var surname1 = vars.friends[1].name.substring(2,5);
+
+	var surname1 = vars.friends[1].surname.substring(2,5);
 	var friend1 = vars.DB.search_friends(surname1);
+
 	var mail2 = vars.friends[2].mail;
 	var friend2 = vars.DB.search_friends(mail2);
+
+	var name3 = vars.friends[3].name + "  " + vars.friends[3].surname;
+	var friend3 = vars.DB.search_friends(name3);
+
 	var all_friends = vars.DB.search_friends("");
 
 	assert.equal(friend0[0].name, vars.friends[0].name, "name");
 	assert.equal(friend1[0].mail, vars.friends[1].mail, "surname");
 	assert.equal(friend2[0].surname, vars.friends[2].surname, "tel");
+	assert.equal(friend3[0].mail, vars.friends[3].mail, "name + surname");
 	assert.equal(all_friends.length, vars.friends.length, "empty chain");
 }
 

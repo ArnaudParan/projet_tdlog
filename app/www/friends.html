@@ -17,7 +17,7 @@
 
 </head>
 	
-<body ng-app="appFriends">
+<body ng-app="appFriends" ng-controller="friend_Controller">
 	<ons-tabbar>
 		<ons-tab page="people.html">
 			<ons-icon icon="ion-ios7-chatboxes" class="tab-icon">
@@ -49,14 +49,15 @@
 	</ons-toolbar>
 	
 	<div class="navigation-bar">
-		<div class="navigation-bar__center" ng-controller="research_bar">
-			<input type="search" class="search-input" style="width: 96%; margin: 6px auto 6px auto;" placeholder="Search" ng-model='request' >			
+		<div class="navigation-bar__center">
+			<input type="search" class="search-input" style="width: 96%; margin: 6px auto 6px auto;" placeholder="Search" ng-model='request' ng-change='search_a_friend(request)' >
 		</div>
 	</div>
 	
-	<div ng-controller="friend_Controller" id='friend_list'>
+	<div id='friend_list'>
 		<ons-list class="person-list">
 			<ons-list-item>
+			{{request}}
 			</ons-list-item>
 			<ons-list-item class="person" modifier="tappable" ng-repeat="(key,friend) in friends">
 				<ons-row>

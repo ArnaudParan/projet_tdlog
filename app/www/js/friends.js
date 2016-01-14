@@ -1,23 +1,13 @@
 var appFriends = angular.module('appFriends', ['onsen']);
 
-appFriends.controller('friend_Controller', ['$scope', function($scope) {
-  $scope.test = true;
+appFriends.controller('friend_Controller', ['$scope', '$rootScope', function($scope, $rootScope) {
   $scope.friends = localDB.get_all_friends_names_tel();
-}])
-
-appFriends.controller('research_bar', ['$scope', function($scope) {
   $scope.request = ""; 
-  //$scope.$watch($scope.request, search_a_friend_service);
+  $scope.search_a_friend = function(req){
+	  console.log(req);
+	  $scope.friends = localDB.search_friends(req);
+  }
 }])
 
-/*appFriends.factory('search_a_friend_service', ['$window', function(win){
-   var msgs = [];
-   return function(msg) {
-     msgs.push(msg);
-     if (msgs.length == 3) {
-       win.alert(msgs.join("\n"));
-       msgs = [];
-     }
-   };
-}]);
-*/
+
+

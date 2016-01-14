@@ -22,14 +22,14 @@ var app = angular.module("App", ['onsen']);
     </button>
   </label>
 
-  <label class="tab-bar__item tab-bar--top-border__item">
+  <label class="tab-bar__item tab-bar--top-border__item" ng-controller="CommentsController">>
     <input type="radio" name="top-tab-bar-b">
     <button class="tab-bar__button tab-bar--top-border__button">
       Comments
     </button>
   </label>
 
-  <label class="tab-bar__item tab-bar--top-border__item">
+  <label class="tab-bar__item tab-bar--top-border__item" ng-controller="ActivityController">>
     <input type="radio" name="top-tab-bar-b">
     <button class="tab-bar__button tab-bar--top-border__button">
       Activity

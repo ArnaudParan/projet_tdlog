@@ -3,8 +3,10 @@
 
 var code_to_message = {
 	1000 : "Incorrect mail or password in login attempt.",
+	1001 : "You have tried to add one user which already exists.",
+	1002 : "You've tried to create a new user with an incorrect tel or mail",
 	2001 : "Not an email while an email was requiered"
-	}
+	};
 
 function GeneralException(code, message)
 {

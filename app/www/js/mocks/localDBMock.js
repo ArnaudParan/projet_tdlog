@@ -168,14 +168,14 @@ mock.local.friends = Array(
 			"gillier",
 			"adele",
 			"adele.gillier@eleves.enpc.fr",
-			"chais pas",
+			"+34567853159",
 			0.3,
 			0.3),
 		new mock.local.Friend(4,
 			"soulier",
 			"eloise",
 			"eloise.soulier@eleves.enpc.fr",
-			"chais pas",
+			"+44865874520",
 			0.4,
 			0.4)
 		);

@@ -9,5 +9,3 @@ appFriends.controller('friend_Controller', ['$scope', '$rootScope', function($sc
   }
 }])
 
-
-

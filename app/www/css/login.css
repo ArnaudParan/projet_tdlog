@@ -4,7 +4,7 @@
 	margin: 60px auto 0;
 }
 
-input[type=email], input[type=password] {
+input[type=text], input[type=password] {
 	display: block;
 	width: 100%;
 	margin: 0 auto;

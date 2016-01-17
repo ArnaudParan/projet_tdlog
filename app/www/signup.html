@@ -7,24 +7,28 @@
 <link rel="stylesheet" href="bower_components/OnsenUI/css/onsen-css-components-blue-basic-theme.css">
 <link rel="stylesheet" href="css/signup.css">
 
-<script src="bower_components/angular/angular.min.js"></script>
-<script src="bower_components/OnsenUI/js/onsenui.min.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/OnsenUI/js/onsenui.js"></script>
 <script>
-ons.bootstrap();
+var app = angular.module("App", ['onsen']);
 </script>
 
 </head>
-<body>
+<body ng-app="App">
 <ons-page>
 <ons-toolbar>
-<div class="left"><ons-back-button>Back</ons-back-button></div>
+<!-- <div class="left"><ons-back-button>Back</ons-back-button></div> -->
 <div class="center">Sign up</div>
 </ons-toolbar>
 
 <div class="formarea">
   <div class="form-row">
-    <input type="text" class="text-input--underbar width-half" placeholder="First" value="">
-    <input type="text" class="text-input--underbar width-half" placeholder="Last" value="" style="border-width-left: 1px">
+    <input type="text" class="text-input--underbar width-half" placeholder="Name" value="">
+    <input type="text" class="text-input--underbar width-half" placeholder="Surname" value="" style="border-width-left: 1px">
+  </div>
+
+  <div class="form-row">
+    <input type="text" class="text-input--underbar width-full" placeholder="Tel (universal)" value="">
   </div>
 
   <div class="form-row">

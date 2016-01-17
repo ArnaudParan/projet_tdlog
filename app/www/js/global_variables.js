@@ -1,3 +1,13 @@
+/* dependencies
+ * 	|->mock/localDBMock.js
+ * 		|->abstractLocalDB.js
+ * 	|->mock/externalDBMock.js
+ * 		|->abstractExternalDB.js
+ */
+
 var server_address = "http://server/";
-var user_mail = -1;
-var user_password = -1;
+var localDB = mock.local.DB;
+var externalDB = mock.external.DB;
+
+var user_mail = localDB.get_user_mail();
+var user_password = localDB.get_user_password();

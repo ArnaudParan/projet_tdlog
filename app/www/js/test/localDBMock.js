@@ -22,6 +22,14 @@ suite.user_mail_pass_management = function(assert)
 	assert.equal(vars.DB.get_user_password(), pass, "password checking");
 }
 
+suite.add_event = function(assert)
+{
+	var vars = test.suites.localDBMock.vars;
+	var suite = test.suites.localDBMock;
+
+	var evt = new Event
+}
+
 suite.get_all_friends_names_tel = function(assert)
 {
 	var vars = test.suites.localDBMock.vars;
@@ -96,8 +104,8 @@ suite.setUp = function()
 
 	vars.events = Array(new mock.local.Event(1,
 				"partouze entre amis chez jacquie et michel",
-				vars.friends[2],
-				vars.friends,
+				2,
+				[1, 2, 3, 4],
 				new Position(0., 0.),
 				"Merci qui?")
 			);

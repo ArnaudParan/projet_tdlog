@@ -8,6 +8,7 @@ appLogin.controller('login_form', ['$scope', function($scope) {
 			login_attempt(mail, password);
 			//passer à la page suivante
 		} catch(err) {
+			console.log(err.toString());
 			alert(err.toString());
 		}
 	};

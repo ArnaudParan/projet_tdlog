@@ -16,10 +16,13 @@ mock.external.externalDB = function(currentId, users, events)
 	this.currentId = currentId;
 	this.users = users;
 	this.events = events;
+	this.eventId = 0;
 };
 mock.external.externalDB.prototype = new AbstractLocalDB();
+mock.external.externalDB.prototype.currentId;
 mock.external.externalDB.prototype.users;
 mock.external.externalDB.prototype.events;
+mock.external.externalDB.prototype.eventId;
 
 mock.external.externalDB.prototype.log_user = function(mail, password)
 {
@@ -33,6 +36,19 @@ mock.external.externalDB.prototype.log_user = function(mail, password)
 
 mock.external.externalDB.prototype.create_event = function(mail, password, event_name, addr, latitude, longitude, participantsId, date)
 {
+	if (!this.log_user(mail, password)) {
+		throw CommonException(1000);
+		return;
+	}
+	this.eventId++;
+	//TODO search owner
+	this.events.push(new Event(this.eventId,
+				event_name,
+				owner,
+				participantsId,
+				new Position(latitude, longitude),
+				address,
+				date));
 	//TODO sends a request and throws a CommonException(1004) if unable to create the event and a CommonException(1000) if unable to login
 	//returns the event id if successful
 }
@@ -205,4 +221,7 @@ mock.external.events = Array(new mock.external.Event(1,
 			new Position(0., 0.),
 			"Merci qui?")
 		);
+
 mock.external.DB = new mock.external.externalDB(4, mock.external.users, mock.external.events);
+
+mock.external.DB.eventId = 1;

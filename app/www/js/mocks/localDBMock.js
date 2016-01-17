@@ -68,7 +68,6 @@ mock.local.localDB.prototype.search_friends = function(keywords)
 	for (friend of this.friends) {
 		var keywords_match = true;
 		for (keyword of keywordsArray) {
-			console.log(keyword);
 			var wordMatch = this.match_keyword_friend(keyword, friend);
 			keywords_match = keywords_match && wordMatch;
 		}

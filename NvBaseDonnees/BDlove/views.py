@@ -1,7 +1,9 @@
 from django.shortcuts import render
-
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.contrib.auth import authenticate, login
+
+from .models import Utilisateur
 
 import datetime
 import json
@@ -17,5 +19,23 @@ def current_datetime(request):
 
 
 def fbview(request):
-    data = {'foo': 'bar', 'hello': 'world'}
-    return HttpResponse(json.dumps(data), content_type='application/json')
+  
+    return HttpResponse(json.dumps({'foo': 'bar', 'hello': 'world'}), content_type='application/json')
+
+
+def home(request):
+    string = request.GET['name']
+    return HttpResponse("Bonjour %s!" % string)
+
+def is_logged_in(request):
+    email = request.GET['email']
+    mdp_hashe = request.GET['mdp_hashe']
+    user = Utilisateur.objects.filter(email=email).first()
+    if user is not None:
+        if mdp_hashe== user.mdp_hashe:
+            return HttpResponse(json.dumps({'resultat':'success'}), content_type='application/json')
+        else:
+            return HttpResponse(json.dumps({'resultat':'fail', 'error':'1000', 'message_erreur':'c\'est du caca'}), content_type='application/json')
+    else:
+        return HttpResponse(json.dumps({'resultat':'fail', 'error':'1000', 'message_erreur':'c\'est du caca'}), content_type='application/json')
+

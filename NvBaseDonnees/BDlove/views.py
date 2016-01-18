@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate, login
 
 from .models import Utilisateur
+from .accessoires import is_user
 
 import datetime
 import json
@@ -27,15 +28,13 @@ def home(request):
     string = request.GET['name']
     return HttpResponse("Bonjour %s!" % string)
 
-def is_logged_in(request):
+def exists(request):
     email = request.GET['email']
     mdp_hashe = request.GET['mdp_hashe']
     user = Utilisateur.objects.filter(email=email).first()
-    if user is not None:
-        if mdp_hashe== user.mdp_hashe:
-            return HttpResponse(json.dumps({'resultat':'success'}), content_type='application/json')
-        else:
-            return HttpResponse(json.dumps({'resultat':'fail', 'error':'1000', 'message_erreur':'c\'est du caca'}), content_type='application/json')
+    if is_user(user,mdp_hashe):
+        return HttpResponse(json.dumps({'resultat':'success'}), content_type='application/json')
     else:
         return HttpResponse(json.dumps({'resultat':'fail', 'error':'1000', 'message_erreur':'c\'est du caca'}), content_type='application/json')
+    
 

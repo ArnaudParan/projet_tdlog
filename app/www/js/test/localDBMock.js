@@ -27,7 +27,34 @@ suite.add_event = function(assert)
 	var vars = test.suites.localDBMock.vars;
 	var suite = test.suites.localDBMock;
 
-	var evt = new Event
+	var evt = {
+		id : 1,
+		name : "festival de la verveine menthe",
+		owner : 2,
+		part : [1, 2, 3, 4],
+		lat : 0.,
+		lon : 0.,
+		addr : "Merci qui?",
+		date : "50/45/2123"
+	};
+
+	vars.DB.add_event(evt.id,
+			evt.name,
+			evt.owner,
+			evt.part,
+			evt.lat,
+			evt.lon,
+			evt.addr,
+			evt.date);
+
+	var db_evt = vars.DB.events[evt.id];
+	assert.equal(db_evt.id, evt.id);
+	assert.equal(db_evt.name, evt.name);
+	assert.equal(db_evt.owner, evt.owner);
+	assert.equal(db_evt.participants, evt.part);
+	assert.equal(db_evt.address, evt.addr);
+	assert.equal(db_evt.date, evt.date);
+
 }
 
 suite.get_all_friends_names_tel = function(assert)
@@ -107,7 +134,8 @@ suite.setUp = function()
 				2,
 				[1, 2, 3, 4],
 				new Position(0., 0.),
-				"Merci qui?")
+				"Merci qui?",
+				"11/11/2011")
 			);
 	vars.DB = new mock.local.localDB(vars.user, vars.friends, vars.events);
 }

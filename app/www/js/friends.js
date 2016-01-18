@@ -10,5 +10,9 @@ appFriends.controller('friend_Controller', ['$scope', '$rootScope', function($sc
     $scope.friend_request = function(){
 	  $scope.add_request() = !$scope.add_request();
   }
+  $scope.reset_request = function(){
+	  $scope.request = "";
+	  $scope.friends = localDB.get_all_friends_names_tel()
+  }
 }])
 

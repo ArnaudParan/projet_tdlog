@@ -24,6 +24,49 @@ suite.login_attempt = function(assert)
 	assert.notOk(vars.DB.log_user(badMail, badPass), "foreigner not identified");
 }
 
+suite.create_event = function(assert)
+{
+	var suite = test.suites.externalDBMock;
+	var vars = suite.vars;
+
+	var evt = {
+		name : "folle réunion de tdlog chez adèle",
+		owner : 0,
+		part : [1, 2, 3, 4],
+		pos : new Position(0., 0.),
+		addr : "chez adèle BIATCH",
+		date : "17/01/2016"}
+
+	var mail = vars.users[evt.owner].mail;
+	var pass = vars.users[evt.owner].password;
+
+	vars.DB.create_event(
+			mail,
+			pass,
+			evt.name,
+			evt.addr,
+			evt.lat,
+			evt.lon,
+			evt.part,
+			evt.date
+			);
+	var db_evt = vars.DB.events[vars.DB.eventId];
+	assert.equal(db_evt.name, evt.name);
+	assert.equal(db_evt.address, evt.addr);
+	assert.equal(db_evt.participants, evt.part);
+	assert.equal(db_evt.date, evt.date);
+	assert.equal(db_evt.owner, evt.owner);
+}
+
+suite.get_user_id = function(assert)
+{
+	var suite = test.suites.externalDBMock;
+	var vars = suite.vars;
+
+	var mail = vars.users[0].mail;
+	assert.equal(vars.DB.get_user_id(mail), 0);
+}
+
 suite.set_pass = function(assert)
 {
 	var suite = test.suites.externalDBMock;
@@ -173,10 +216,12 @@ suite.setUp = function() {
 
 	vars.events = Array(new mock.external.Event(1,
 				"partouze entre amis chez jacquie et michel",
-				vars.users[2],
-				vars.users,
+				2,
+				[1,2,3,4],
 				new Position(0., 0.),
-				"Merci qui?")
+				"Merci qui?",
+				"16/09/1993")
 			);
 	vars.DB = new mock.external.externalDB(4, vars.users, vars.events);
+	vars.DB.eventId = 0;
 }

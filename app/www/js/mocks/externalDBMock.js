@@ -16,10 +16,13 @@ mock.external.externalDB = function(currentId, users, events)
 	this.currentId = currentId;
 	this.users = users;
 	this.events = events;
+	this.eventId = 0;
 };
 mock.external.externalDB.prototype = new AbstractLocalDB();
+mock.external.externalDB.prototype.currentId;
 mock.external.externalDB.prototype.users;
 mock.external.externalDB.prototype.events;
+mock.external.externalDB.prototype.eventId;
 
 mock.external.externalDB.prototype.log_user = function(mail, password)
 {
@@ -33,8 +36,30 @@ mock.external.externalDB.prototype.log_user = function(mail, password)
 
 mock.external.externalDB.prototype.create_event = function(mail, password, event_name, addr, latitude, longitude, participantsId, date)
 {
-	//TODO sends a request and throws a CommonException(1004) if unable to create the event and a CommonException(1000) if unable to login
-	//returns the event id if successful
+	if (!this.log_user(mail, password)) {
+		throw CommonException(1000);
+		return;
+	}
+	this.eventId++;
+	var owner = this.get_user_id(mail);
+	this.events.push(new mock.external.Event(this.eventId,
+				event_name,
+				owner,
+				participantsId,
+				new Position(latitude, longitude),
+				addr,
+				date));
+	return this.eventId;
+}
+
+mock.external.externalDB.prototype.get_user_id = function(mail)
+{
+	for (user of this.users) {
+		if(user.mail == mail){
+			return user.id;
+		}
+	}
+	return false;
 }
 
 mock.external.externalDB.prototype.search_user = function(mail, password, keywords)
@@ -108,7 +133,7 @@ mock.external.externalDB.prototype.is_tel = function(tel)
 	}
 }
 
-mock.external.Event = function(id, name, owner, participants, position, address)
+mock.external.Event = function(id, name, owner, participants, position, address, date)
 {
 	this.id = id;
 	this.name = name;
@@ -116,6 +141,7 @@ mock.external.Event = function(id, name, owner, participants, position, address)
 	this.participants = participants;
 	this.position = position;
 	this.address = address;
+	this.date = date;
 };
 mock.external.Event.prototype.id;
 mock.external.Event.prototype.name;
@@ -123,6 +149,7 @@ mock.external.Event.prototype.owner;
 mock.external.Event.prototype.participants;
 mock.external.Event.prototype.position;
 mock.external.Event.prototype.address;
+mock.external.Event.prototype.date;
 
 var Position = function(latitude, longitude)
 {
@@ -203,6 +230,10 @@ mock.external.events = Array(new mock.external.Event(1,
 			mock.external.users[2],
 			mock.external.users,
 			new Position(0., 0.),
-			"Merci qui?")
+			"Merci qui?",
+			"16/09/1993")
 		);
+
 mock.external.DB = new mock.external.externalDB(4, mock.external.users, mock.external.events);
+
+mock.external.DB.eventId = 1;

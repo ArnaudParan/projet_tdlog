@@ -39,6 +39,14 @@ mock.local.localDB.prototype.get_user_password = function()
 
 mock.local.localDB.prototype.add_event = function(eventId, name, creatorId, participantsId, latitude, longitude, address, date)
 {
+	this.events.push(new mock.local.Event(
+				eventId,
+				name,
+				creatorId,
+				participantsId,
+				new Position(latitude, longitude),
+				address,
+				date));
 }
 
 mock.local.localDB.prototype.add_friend = function(id, tel, name)
@@ -48,7 +56,6 @@ mock.local.localDB.prototype.add_friend = function(id, tel, name)
 
 mock.local.localDB.prototype.get_all_friends_names_tel = function()
 {
-	//TODO give Id and test
 	var transcripted_friends = Array();
 	for (friend of this.friends) {
 		var current_friend = {
@@ -68,7 +75,6 @@ mock.local.localDB.prototype.search_friends = function(keywords)
 	for (friend of this.friends) {
 		var keywords_match = true;
 		for (keyword of keywordsArray) {
-			console.log(keyword);
 			var wordMatch = this.match_keyword_friend(keyword, friend);
 			keywords_match = keywords_match && wordMatch;
 		}
@@ -116,7 +122,7 @@ mock.corresponding_tel = function(keyword, tel)
 	return false;
 }
 
-mock.local.Event = function(id, name, owner, participants, position, address)
+mock.local.Event = function(id, name, owner, participants, position, address, date)
 {
 	this.id = id;
 	this.name = name;
@@ -124,6 +130,7 @@ mock.local.Event = function(id, name, owner, participants, position, address)
 	this.participants = participants;
 	this.position = position;
 	this.address = address;
+	this.date = date;
 };
 mock.local.Event.prototype.id;
 mock.local.Event.prototype.name;
@@ -131,6 +138,7 @@ mock.local.Event.prototype.owner;
 mock.local.Event.prototype.participants;
 mock.local.Event.prototype.position;
 mock.local.Event.prototype.address;
+mock.local.Event.prototype.date;
 
 var Position = function(latitude, longitude)
 {
@@ -203,6 +211,7 @@ mock.local.events = Array(new mock.local.Event(1,
 			mock.local.friends[2],
 			mock.local.friends,
 			new Position(0., 0.),
-			"Merci qui?")
+			"Merci qui?",
+			"11/11/2011")
 		);
 mock.local.DB = new mock.local.localDB(mock.local.user, mock.local.friends, mock.local.events);

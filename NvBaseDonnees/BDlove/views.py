@@ -31,8 +31,7 @@ def home(request):
 def exists(request):
     email = request.GET['email']
     mdp_hashe = request.GET['mdp_hashe']
-    user = Utilisateur.objects.filter(email=email).first()
-    if is_user(user,mdp_hashe):
+    if is_user(email,mdp_hashe):
         return HttpResponse(json.dumps({'resultat':'success'}), content_type='application/json')
     else:
         return HttpResponse(json.dumps({'resultat':'fail', 'error':'1000', 'message_erreur':'c\'est du caca'}), content_type='application/json')

@@ -1,7 +1,7 @@
 from django.db import models
 
 class Utilisateur(models.Model):
-    identifiant = models.AutoField(primary_key = True)
+   
     mdp_hashe = models.CharField(max_length=500)
     prenom = models.CharField(max_length=100)
     nom = models.CharField(max_length=100)
@@ -13,10 +13,10 @@ class Utilisateur(models.Model):
     derniere_position_lat = models.FloatField(null=True, blank=True)
     derniere_position_long = models.FloatField(null=True, blank=True)
     temps_position_active = models.PositiveIntegerField(default=60) # Temps en MIN au bout duquel la position se deactive automatiquement
-    amis = models.ManyToManyField('Utilisateur', null=True, blank=True)
+    amis = models.ManyToManyField('Utilisateur', blank=True)
 
     def __str__(self):
-        str_id = "id : {} \n/".format(self.identifiant)
+        str_id = "id : {} \n/".format(self.id)
         str_prenom = "prenom : {} \n/".format(self.prenom)
         str_nom = "nom : {} \n/".format(self.nom)
         str_numero_tel = "numero_tel : {} \n/".format(self.numero_tel)

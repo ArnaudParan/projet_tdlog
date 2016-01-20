@@ -8,6 +8,7 @@ from .accessoires import is_user
 
 import datetime
 import json
+import re
 
 
 def exists(request):
@@ -55,9 +56,23 @@ def create_event(request):
 
 #def add_user(request):
 
-#def is_mail(request):
+def is_mail(request):
+    email = request.GET['email']
+    reg = r'^[A-Za-z0-9]+([_|\.|-]{1}[A-Za-z0-9]+)*@[A-Za-z0-9]+([_|\.|-]{1}[A-Za-z0-9]+)*[\.]{1}[a-z]{2,6}$'
+    if re.match(reg,email) is not None:
+         return HttpResponse(json.dumps({'resultat':'success'}), content_type='application/json')  
+    else:       
+        return HttpResponse(json.dumps({'resultat':'fail','error':'2000','message_erreur':'email non valide'}), content_type='application/json')
 
-#def is_tel(request):
+
+def is_tel(request):
+    numero = request.GET['num']
+    reg =r'^0[0-9]([ .-]?[0-9]{2}){4}$'
+    #reg =r'^\+?[03]3?[ .-]?[0-9]([ .-]?[0-9]{2}){4}$'
+    if re.match(reg,numero) is not None:
+         return HttpResponse(json.dumps({'resultat':'success'}), content_type='application/json')  
+    else:       
+        return HttpResponse(json.dumps({'resultat':'fail','error':'2000','message_erreur':'numero non valide'}), content_type='application/json')
 
 def add_contact(request):
     

@@ -9,24 +9,6 @@ from .accessoires import is_user
 import datetime
 import json
 
-def index(request):
-    return HttpResponse("Hello, world. You are so beautiful")
-
-
-def current_datetime(request):
-    now = datetime.datetime.now()
-    html = "<html><body>It is now %s.</body></html>" % now
-    return HttpResponse(html)
-
-
-def fbview(request):
-  
-    return HttpResponse(json.dumps({'foo': 'bar', 'hello': 'world'}), content_type='application/json')
-
-
-def home(request):
-    string = request.GET['name']
-    return HttpResponse("Bonjour %s!" % string)
 
 def exists(request):
     email = request.GET['email']
@@ -57,8 +39,42 @@ def create_event(request):
             if participant is not None:
                 evenement.participants.add(participant) 
         return HttpResponse(json.dumps({'resultat':'success','id_evenement':evenement.id } ), content_type='application/json')
-        #return HttpResponse("Bonjour %s!" evenement.id)
+      
         
     else: 
         return HttpResponse(json.dumps({'resultat':'fail', 'error':'1002', 'message_erreur':'t\'existes pas tu peux pas créer d\'évènement bolosse'}),  content_type='application/json')
+
+
+#def log_user(request):
+
+
+#def get_user_id(request):
+
+#def search_user(request):
+#TODO returns an id if exists, and throws a CommonException(1003) if the user does not exist
+
+#def add_user(request):
+
+#def is_mail(request):
+
+#def is_tel(request):
+
+def add_contact(request):
+    
+    email = request.GET['email']
+    pwd = request.GET['mdp']
+    id_ami = request.GET['id_ami']
+    ami = Utilisateur.objects.filter(id = id_ami).first()
+    if ami is not None:
+        if is_user(email,pwd):
+            user=Utilisateur.objects.filter(email = email).first()
+            user.amis.add(ami)
+            return HttpResponse(json.dumps({'resultat':'success'}), content_type='application/json')
+        else:
+            return HttpResponse(json.dumps({'resultat':'fail', 'error':'1000', 'message_erreur':'tu n\'existes pas'}), content_type='application/json')
+    else:
+         return HttpResponse(json.dumps({'resultat':'fail', 'error':'1000', 'message_erreur':'utilisateur inconnu'}),content_type='application/json')
+
+
+
 

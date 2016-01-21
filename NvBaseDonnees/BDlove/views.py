@@ -4,11 +4,11 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate, login
 
 from .models import Utilisateur,Evenement
-from .accessoires import is_user
+from .accessoires import is_user, is_mail, is_tel
 
 import datetime
 import json
-import re
+
 
 
 def login(request):
@@ -61,9 +61,25 @@ def get_user_id(request):
 
 #TODO returns an id if exists, and throws a CommonException(1003) if the user does not exist
 
-#def add_user(request):
-
-
+def add_user(request):
+    nom = request.GET['nom']
+    prenom = request.GET['prenom']
+    num = request.GET['numero']
+    email = request.GET['email']
+    pwd = request.GET['mdp']
+    if is_mail(email):
+        if is_tel(num):
+            if Utilisateur.objects.filter(email=email).first() is not None:
+                return HttpResponse(json.dumps({'resultat':'fail', 'error':'1000', 'message_erreur':'cet utilisateur existe déjà'}), content_type='application/json')
+            else:
+                user = Utilisateur(nom=nom, prenom=prenom, mdp_hashe=pwd, numero_tel=num,email=email, possede_appli=True)
+                user.save()
+                return HttpResponse(json.dumps({'resultat':'success', 'id':user.id}), content_type='application/json')
+        else:
+            return HttpResponse(json.dumps({'resultat':'fail', 'error':'1000','message_erreur':'numero non valide'}), content_type='application/json')
+    else: 
+        return HttpResponse(json.dumps({'resultat':'fail', 'error':'1000','message_erreur':'mail non valide'}), content_type='application/json')     
+     
 
 def add_contact(request):
     email = request.GET['email']

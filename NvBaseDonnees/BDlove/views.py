@@ -11,10 +11,10 @@ import json
 import re
 
 
-def exists(request):
+def login(request):
     email = request.GET['email']
     hashe = request.GET['mdp_hashe']
-    if is_user(email,mdp_hashe):
+    if is_user(email,hashe):
         return HttpResponse(json.dumps({'resultat':'success'}), content_type='application/json')
     else:
         return HttpResponse(json.dumps({'resultat':'fail', 'error':'1000', 'message_erreur':'c\'est du caca'}), content_type='application/json')
@@ -46,36 +46,26 @@ def create_event(request):
         return HttpResponse(json.dumps({'resultat':'fail', 'error':'1002', 'message_erreur':'t\'existes pas tu peux pas créer d\'évènement bolosse'}),  content_type='application/json')
 
 
-#def log_user(request):
+def get_user_id(request):
+    email = request.GET['email']
+    user = Utilisateur.objects.filter(email=email).first()
+    if user is not None:
+        return HttpResponse(json.dumps({'resultat':'success', 'id':user.id}), content_type='application/json')
+    else:
+        return HttpResponse(json.dumps({'resultat':'fail', 'error':'1000', 'message_erreur':'c\'est du caca'}), content_type='application/json')
 
 
-#def get_user_id(request):
 
 #def search_user(request):
+
+
 #TODO returns an id if exists, and throws a CommonException(1003) if the user does not exist
 
 #def add_user(request):
 
-def is_mail(request):
-    email = request.GET['email']
-    reg = r'^[A-Za-z0-9]+([_|\.|-]{1}[A-Za-z0-9]+)*@[A-Za-z0-9]+([_|\.|-]{1}[A-Za-z0-9]+)*[\.]{1}[a-z]{2,6}$'
-    if re.match(reg,email) is not None:
-         return HttpResponse(json.dumps({'resultat':'success'}), content_type='application/json')  
-    else:       
-        return HttpResponse(json.dumps({'resultat':'fail','error':'2000','message_erreur':'email non valide'}), content_type='application/json')
 
-
-def is_tel(request):
-    numero = request.GET['num']
-    reg =r'^0[0-9]([ .-]?[0-9]{2}){4}$'
-    #reg =r'^\+?[03]3?[ .-]?[0-9]([ .-]?[0-9]{2}){4}$'
-    if re.match(reg,numero) is not None:
-         return HttpResponse(json.dumps({'resultat':'success'}), content_type='application/json')  
-    else:       
-        return HttpResponse(json.dumps({'resultat':'fail','error':'2000','message_erreur':'numero non valide'}), content_type='application/json')
 
 def add_contact(request):
-    
     email = request.GET['email']
     pwd = request.GET['mdp']
     id_ami = request.GET['id_ami']

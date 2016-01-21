@@ -2,7 +2,7 @@
 1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
 1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
 1 verbose cli   'install',
-1 verbose cli   'ng-messages' ]
+1 verbose cli   'angular-messages@X.Y.Z' ]
 2 info using npm@2.14.7
 3 info using node@v4.2.3
 4 verbose install initial load of D:\Ponts\2A\TDLog\Projet\Git\projet_tdlog-master\app\www\package.json
@@ -10,81 +10,88 @@
 6 verbose installManyTop reading scoped package data from D:\Ponts\2A\TDLog\Projet\Git\projet_tdlog-master\app\www\node_modules\ng-datepicker\package.json
 7 verbose installManyTop reading scoped package data from D:\Ponts\2A\TDLog\Projet\Git\projet_tdlog-master\app\www\node_modules\onsenui\package.json
 8 verbose installManyTop reading scoped package data from D:\Ponts\2A\TDLog\Projet\Git\projet_tdlog-master\app\www\node_modules\qunitjs\package.json
-9 info package.json onsenui@2.0.0-beta.2 No license field.
-10 info package.json date-picker@0.5.0 No license field.
+9 info package.json date-picker@0.5.0 No license field.
+10 info package.json onsenui@2.0.0-beta.2 No license field.
 11 verbose readDependencies loading dependencies from D:\Ponts\2A\TDLog\Projet\Git\projet_tdlog-master\app\www\package.json
-12 silly cache add args [ 'ng-messages', null ]
-13 verbose cache add spec ng-messages
+12 silly cache add args [ 'angular-messages@X.Y.Z', null ]
+13 verbose cache add spec angular-messages@X.Y.Z
 14 silly cache add parsed spec Result {
-14 silly cache add   raw: 'ng-messages',
+14 silly cache add   raw: 'angular-messages@X.Y.Z',
 14 silly cache add   scope: null,
-14 silly cache add   name: 'ng-messages',
-14 silly cache add   rawSpec: '',
-14 silly cache add   spec: '*',
-14 silly cache add   type: 'range' }
-15 silly addNamed ng-messages@*
-16 verbose addNamed "*" is a valid semver range for ng-messages
-17 silly addNameRange { name: 'ng-messages', range: '*', hasData: false }
-18 silly mapToRegistry name ng-messages
+14 silly cache add   name: 'angular-messages',
+14 silly cache add   rawSpec: 'X.Y.Z',
+14 silly cache add   spec: 'X.Y.Z',
+14 silly cache add   type: 'tag' }
+15 silly addNamed angular-messages@X.Y.Z
+16 verbose addNamed "X.Y.Z" is being treated as a dist-tag for angular-messages
+17 info addNameTag [ 'angular-messages', 'X.Y.Z' ]
+18 silly mapToRegistry name angular-messages
 19 silly mapToRegistry using default registry
 20 silly mapToRegistry registry https://registry.npmjs.org/
-21 silly mapToRegistry uri https://registry.npmjs.org/ng-messages
-22 verbose addNameRange registry:https://registry.npmjs.org/ng-messages not in flight; fetching
-23 verbose request uri https://registry.npmjs.org/ng-messages
+21 silly mapToRegistry uri https://registry.npmjs.org/angular-messages
+22 verbose addNameTag registry:https://registry.npmjs.org/angular-messages not in flight; fetching
+23 verbose request uri https://registry.npmjs.org/angular-messages
 24 verbose request no auth needed
-25 info attempt registry request try #1 at 01:08:02
-26 verbose request id 319def172cfef94f
-27 http request GET https://registry.npmjs.org/ng-messages
-28 http 404 https://registry.npmjs.org/ng-messages
-29 verbose headers { 'content-type': 'application/json',
-29 verbose headers   'cache-control': 'max-age=0',
-29 verbose headers   'content-length': '2',
+25 info attempt registry request try #1 at 01:32:22
+26 verbose request id b90507bc6af4b3c7
+27 http request GET https://registry.npmjs.org/angular-messages
+28 http 200 https://registry.npmjs.org/angular-messages
+29 verbose headers { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+29 verbose headers   etag: '"DW4USCEORTBDUFILL4JUGTS00"',
+29 verbose headers   'content-type': 'application/json',
+29 verbose headers   'cache-control': 'max-age=300',
+29 verbose headers   'content-length': '55257',
 29 verbose headers   'accept-ranges': 'bytes',
-29 verbose headers   date: 'Mon, 18 Jan 2016 00:08:25 GMT',
+29 verbose headers   date: 'Mon, 18 Jan 2016 00:32:45 GMT',
 29 verbose headers   via: '1.1 varnish',
 29 verbose headers   age: '0',
 29 verbose headers   connection: 'close',
-29 verbose headers   'x-served-by': 'cache-lhr6329-LHR',
+29 verbose headers   'x-served-by': 'cache-ams4147-AMS',
 29 verbose headers   'x-cache': 'MISS',
 29 verbose headers   'x-cache-hits': '0',
-29 verbose headers   'x-timer': 'S1453075704.898370,VS0,VE160' }
-30 silly get cb [ 404,
-30 silly get   { 'content-type': 'application/json',
-30 silly get     'cache-control': 'max-age=0',
-30 silly get     'content-length': '2',
+29 verbose headers   'x-timer': 'S1453077164.933381,VS0,VE594',
+29 verbose headers   vary: 'Accept' }
+30 silly get cb [ 200,
+30 silly get   { server: 'CouchDB/1.5.0 (Erlang OTP/R16B03)',
+30 silly get     etag: '"DW4USCEORTBDUFILL4JUGTS00"',
+30 silly get     'content-type': 'application/json',
+30 silly get     'cache-control': 'max-age=300',
+30 silly get     'content-length': '55257',
 30 silly get     'accept-ranges': 'bytes',
-30 silly get     date: 'Mon, 18 Jan 2016 00:08:25 GMT',
+30 silly get     date: 'Mon, 18 Jan 2016 00:32:45 GMT',
 30 silly get     via: '1.1 varnish',
 30 silly get     age: '0',
 30 silly get     connection: 'close',
-30 silly get     'x-served-by': 'cache-lhr6329-LHR',
+30 silly get     'x-served-by': 'cache-ams4147-AMS',
 30 silly get     'x-cache': 'MISS',
 30 silly get     'x-cache-hits': '0',
-30 silly get     'x-timer': 'S1453075704.898370,VS0,VE160' } ]
-31 verbose stack Error: Registry returned 404 for GET on https://registry.npmjs.org/ng-messages
-31 verbose stack     at makeError (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:264:12)
-31 verbose stack     at CachingRegistryClient.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:242:14)
-31 verbose stack     at Request._callback (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:172:14)
-31 verbose stack     at Request.self.callback (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:198:22)
-31 verbose stack     at emitTwo (events.js:87:13)
-31 verbose stack     at Request.emit (events.js:172:7)
-31 verbose stack     at Request.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:1063:14)
-31 verbose stack     at emitOne (events.js:82:20)
-31 verbose stack     at Request.emit (events.js:169:7)
-31 verbose stack     at IncomingMessage.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:1009:12)
-32 verbose statusCode 404
-33 verbose pkgid ng-messages
+30 silly get     'x-timer': 'S1453077164.933381,VS0,VE594',
+30 silly get     vary: 'Accept' } ]
+31 verbose get saving angular-messages to C:\Users\Simon\AppData\Roaming\npm-cache\registry.npmjs.org\angular-messages\.cache.json
+32 silly addNameTag next cb for angular-messages with tag X.Y.Z
+33 verbose stack Error: No compatible version found: angular-messages@'X.Y.Z'
+33 verbose stack Valid install targets:
+33 verbose stack ["1.3.0-rc.5","1.3.0","1.3.1","1.3.2","1.3.3","1.3.4","1.3.5","1.3.6","1.3.7","1.3.8","1.4.0-beta.0","1.3.9","1.3.10","1.4.0-beta.1","1.4.0-beta.2","1.3.11","1.4.0-beta.3","1.3.12","1.3.13","1.4.0-beta.4","1.3.14","1.4.0-beta.5","1.4.0-beta.6","1.3.15","1.4.0-rc.0","1.4.0-rc.1","1.4.0-rc.2","1.4.0","1.3.16","1.4.1","1.4.2","1.3.17","1.4.3","1.4.4","1.3.18","1.4.5","1.3.19","1.4.6","1.5.0-beta.0","1.3.20","1.4.7","1.5.0-beta.2","1.4.8","1.5.0-rc.0","1.5.0-rc.1"]
+33 verbose stack
+33 verbose stack     at installTargetsError (C:\Program Files\nodejs\node_modules\npm\lib\cache\add-named.js:284:12)
+33 verbose stack     at next (C:\Program Files\nodejs\node_modules\npm\lib\cache\add-named.js:94:10)
+33 verbose stack     at RES (C:\Program Files\nodejs\node_modules\npm\node_modules\inflight\inflight.js:23:14)
+33 verbose stack     at f (C:\Program Files\nodejs\node_modules\npm\node_modules\once\once.js:17:25)
+33 verbose stack     at fixName (C:\Program Files\nodejs\node_modules\npm\lib\cache\add-named.js:29:5)
+33 verbose stack     at saved (C:\Program Files\nodejs\node_modules\npm\lib\cache\caching-client.js:173:7)
+33 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\graceful-fs\polyfills.js:210:7
+33 verbose stack     at FSReqWrap.oncomplete (fs.js:82:15)
 34 verbose cwd D:\Ponts\2A\TDLog\Projet\Git\projet_tdlog-master\app\www
 35 error Windows_NT 10.0.10586
-36 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "ng-messages"
+36 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "angular-messages@X.Y.Z"
 37 error node v4.2.3
 38 error npm  v2.14.7
-39 error code E404
-40 error 404 Registry returned 404 for GET on https://registry.npmjs.org/ng-messages
-40 error 404
-40 error 404 'ng-messages' is not in the npm registry.
-40 error 404 You should bug the author to publish it (or use the name yourself!)
-40 error 404
-40 error 404 Note that you can also install from a
-40 error 404 tarball, folder, http url, or git url.
+39 error code ETARGET
+40 error notarget No compatible version found: angular-messages@'X.Y.Z'
+40 error notarget Valid install targets:
+40 error notarget ["1.3.0-rc.5","1.3.0","1.3.1","1.3.2","1.3.3","1.3.4","1.3.5","1.3.6","1.3.7","1.3.8","1.4.0-beta.0","1.3.9","1.3.10","1.4.0-beta.1","1.4.0-beta.2","1.3.11","1.4.0-beta.3","1.3.12","1.3.13","1.4.0-beta.4","1.3.14","1.4.0-beta.5","1.4.0-beta.6","1.3.15","1.4.0-rc.0","1.4.0-rc.1","1.4.0-rc.2","1.4.0","1.3.16","1.4.1","1.4.2","1.3.17","1.4.3","1.4.4","1.3.18","1.4.5","1.3.19","1.4.6","1.5.0-beta.0","1.3.20","1.4.7","1.5.0-beta.2","1.4.8","1.5.0-rc.0","1.5.0-rc.1"]
+40 error notarget
+40 error notarget This is most likely not a problem with npm itself.
+40 error notarget In most cases you or one of your dependencies are requesting
+40 error notarget a package version that doesn't exist.
 41 verbose exit [ 1, true ]

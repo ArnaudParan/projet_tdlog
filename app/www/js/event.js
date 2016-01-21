@@ -6,6 +6,36 @@ swipe = function(arr, i, j){
 	arr[j] = tmp;
 }
 
+var geocoder;
+var map;
+var search_position = Array();
+
+initialize = function() {
+  geocoder = new google.maps.Geocoder();
+  var latlng = new google.maps.LatLng(-34.397, 150.644);
+  var mapOptions = {
+	zoom: 8,
+    center: latlng
+  }
+  map = new google.maps.Map(document.getElementById("map"), mapOptions);
+}
+
+codeAddress = function() {
+  var address = document.getElementById("search_address").value;
+  geocoder.geocode( { 'address': address}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+		search_position = results[0].geometry.location;
+      map.setCenter(search_position);
+      var marker = new google.maps.Marker({
+          map: map,
+          position: search_position
+      });
+    } else {
+      alert("Geocode was not successful for the following reason: " + status);
+    }
+  });
+}
+
 eventGenerator.controller('eventController', ['$scope', '$rootScope', function($scope, $rootScope) {
 	// Liste des amis de l'utilisateur
   $scope.friends = {
@@ -38,7 +68,7 @@ eventGenerator.controller('eventController', ['$scope', '$rootScope', function($
   }
 
   // Details de l'evenement
-  $scope.event = { title: "", date: new Date(), address: ""};
+  $scope.event = { title: "", date: new Date(), address: "", latitude: 0., longitude: 0.};
   
   // Requete renseignee dans le champ de recherche
   $scope.request = "";
@@ -86,4 +116,34 @@ eventGenerator.controller('eventController', ['$scope', '$rootScope', function($
 			return("Sending invite");			
 	}
   }
+  
+  function update_position_in_controller(){
+	  $scope.event.latitude = search_position[0];
+	  $scope.event.longitude = search_position[1];
+  }
+  
+  $scope.$watch(search_position, update_position_in_controller);
+  
+/*  $scope.createEvent = function()
+  {
+	  var mail = localDB.get_user_mail();
+	  var password = localDB.get_user_password();
+	  var participantsId = Array();
+	  for (friend of friends.selected)
+	  {
+		  his_tel = friend.tel;
+		  his_id = localDB.get_friend_id_by_tel(tel);
+		  participantsId.push(his_id);
+	  }
+	  var this_event = externalDB.create_event(mail, password, $scope.event.title, $scope.event.address, latitude, longitude, participantsId, date)
+  } */
+  
+  $scope.onKeyDown = function ($event) {
+		var key = window.event ? keyEvent.keyCode : keyEvent.which;
+		if(key == 13)
+		{
+			codeAddress();
+		}
+    };
+ 
 }])

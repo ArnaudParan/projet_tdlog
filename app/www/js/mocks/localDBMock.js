@@ -102,6 +102,14 @@ mock.local.localDB.prototype.match_keyword_friend = function(keyword, friend)
 	return false;
 }
 
+mock.local.localDB.prototype.get_friend_id_by_tel = function(tel)
+{
+	for (friend of this.friends)
+		if(friend.tel == tel)
+			return friend.id;
+	throw new CommonException(2002);
+}
+
 mock.is_substr = function(keyword, word)
 {
 	if (word.indexOf(keyword) > -1) {
@@ -214,4 +222,5 @@ mock.local.events = Array(new mock.local.Event(1,
 			"Merci qui?",
 			"11/11/2011")
 		);
+		
 mock.local.DB = new mock.local.localDB(mock.local.user, mock.local.friends, mock.local.events);

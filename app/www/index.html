@@ -1,42 +1,97 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<link rel="stylesheet" href="bower_components/OnsenUI/css/onsenui.css"/>
-<link rel="stylesheet" href="bower_components/OnsenUI/css/onsen-css-components-blue-theme.css"/>
-<link rel="stylesheet" href="bower_components/OnsenUI/css/ionicons/css/ionicons.css"/>
-<link rel="stylesheet" href="css/index.css"/>
-<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
-<script type="text/javascript" src="bower_components/OnsenUI/js/onsenui.min.js"></script>
-<script type="text/javascript" src="js/index.js"></script>
-<script>
-var app = angular.module("App", ['onsen']);
-</script>
+	<meta charset="utf-8">
+	
+	<!-- Dependances css -->
+	<link rel="stylesheet" href="bower_components/OnsenUI/css/onsenui.css">
+	<link rel="stylesheet" href="bower_components/OnsenUI/css/onsen-css-components-blue-basic-theme.css">
+	<link rel="stylesheet" href="node_modules/ng-datepicker/src/css/ngDatepicker.css">
+	<link rel="stylesheet" href="css/index.css">
+	
+
+	<!-- Dépendances Angularjs / Onsen -->
+	<script src="bower_components/angular/angular.min.js"></script>
+	<script src="bower_components/angular/angular-messages.js"></script>
+	<script src="bower_components/OnsenUI/js/onsenui.min.js"></script>
+	
+	<!-- Dépendances au module ng-datepicker -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment-with-locales.min.js"></script>
+	<script src="node_modules/ng-datepicker/src/js/ngDatepicker.js"></script>
+	
+	<!-- Dépendances au module de l'API Android Maps -->
+	<script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKk2RPrKeU9Vf-re1AI7YhcLxXjtsKDKw&callback=initMap">
+    </script>
+	
+	<!-- Dépendances au mocks -->
+	<script src="js/abstractLocalDB.js"></script>
+	<script src="js/mocks/localDBMock.js"></script>
+	<script src="js/mocks/externalDBMock.js"></script>
+	<script src="js/global_variables.js"></script>
+	
+	<!-- AngularJS driver -->
+	<script src="js/index.js"></script>
+	
+	<!-- CSP support mode (required for Windows Universal apps) -->
+	<link rel="stylesheet" href="lib/angular/angular-csp.css" />
+	
 </head>
-<body ng-app="App">
-<div class="tab-bar tab-bar--top tab-bar--top-border">
-  <label class="tab-bar__item tab-bar--top-border__item">
-    <input type="radio" name="top-tab-bar-b" checked="checked">
-    <button class="tab-bar__button tab-bar--top-border__button">
-			Home
-    </button>
-  </label>
+	
+<body ng-app="indexModule" onload="initialize()">
 
-  <label class="tab-bar__item tab-bar--top-border__item" ng-controller="CommentsController">>
-    <input type="radio" name="top-tab-bar-b">
-    <button class="tab-bar__button tab-bar--top-border__button">
-      Comments
-    </button>
-  </label>
+<ons-navigator animation="slide" var="app.navi">
+	<ons-page>	
+	<!-- Barre d'onglets -->
+	
+	<div class="tab-bar tab-bar--top tab-bar--top-border">
+		<label class="tab-bar__item tab-bar--top-border__item">
+			<input type="radio" name="top-tab-bar-b" checked="checked">
+			<button class="tab-bar__button tab-bar--top-border__button">
+				Home
+			</button>
+		</label>
 
-  <label class="tab-bar__item tab-bar--top-border__item" ng-controller="ActivityController">>
-    <input type="radio" name="top-tab-bar-b">
-    <button class="tab-bar__button tab-bar--top-border__button">
-      Activity
-    </button>
-  </label>
-</div>
-<script type="text/javascript" src="cordova.js"></script>
+		<label class="tab-bar__item tab-bar--top-border__item" ng-controller="selectionController">>
+			<input type="radio" name="top-tab-bar-b">
+			<button class="tab-bar__button tab-bar--top-border__button">
+				Comments
+			</button>
+		</label>
+
+		<label class="tab-bar__item tab-bar--top-border__item" ng-controller="selectionController">>
+			<input type="radio" name="top-tab-bar-b">
+			<button class="tab-bar__button tab-bar--top-border__button">
+				Activity
+			</button>
+		</label>
+	</div>
+	
+	<!-- Map -->
+	
+	<div id="map" style=" margin-left: auto; margin-right: auto; width:350px">
+	</div>
+	
+	<!-- Evenements en cours - Barre à déployer -->
+	<ons-row>
+		<button class="button button--large" ng-click="">Événements en cours</button>
+		<ons-popover direction="down">
+			<ons-list class="list">
+				<ons-list-item class="list__header">Événements à venir</ons-list-item>
+				<ons-list-item class="list__item list__item--tappable">Ciné Châtelet</ons-list-item>
+				<ons-list-item class="list__item list__item--tappable">Musée Arts Ludiques</ons-list-item>
+			</ons-list>
+		</ons-popover>
+	</ons-row>
+	
+	<!-- Créer un événement -->
+	<ons-row ng-controller="createEvent">
+		<button class="button button--large" ng-click="app.navi.pushPage('event.html');">Créer un nouvel événement</button>
+	</ons-row>
+	
+	</ons-page>
+</ons-navigator>
 </body>
+
 </html>
 

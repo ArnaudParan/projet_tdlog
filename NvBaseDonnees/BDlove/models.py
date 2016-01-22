@@ -8,6 +8,7 @@ class Utilisateur(models.Model):
     numero_tel = models.CharField(max_length=12)
     email = models.CharField(max_length=100)
     possede_appli = models.BooleanField() 
+    geoloc_active = models.BooleanField(default=False)
     position_actuelle_lat = models.FloatField(null=True, blank=True)
     position_actuelle_long = models.FloatField(null=True, blank=True)
     derniere_position_lat = models.FloatField(null=True, blank=True)

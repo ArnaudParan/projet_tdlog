@@ -96,6 +96,18 @@ suite.search_friends = function(assert)
 	assert.equal(all_friends.length, vars.friends.length, "empty chain");
 }
 
+suite.get_friend_id_by_tel = function(assert)
+{
+	var vars = test.suites.localDBMock.vars;
+	var suite = test.suites.localDBMock;
+	
+	var id = 1;
+	var tel = vars.friends[id].tel;
+	var non_existing_tel = "+33758315420";
+	assert.equal(vars.DB.get_friend_id_by_tel(tel), id, "returns id when given corresponding tel");
+	assert.throws(function(){vars.DB.get_friend_id_by_tel(non_existing_tel)}, new CommonException(2002), "throws error when friend doesn't exist");
+}
+
 suite.setUp = function()
 {
 	var vars = test.suites.localDBMock.vars;
@@ -103,25 +115,25 @@ suite.setUp = function()
 
 	vars.user = new mock.local.User(0, "john", "doe", "john.doe@eleves.enpc.fr", "+336128745", 0., 0., "mot_de_passe");
 	vars.friends = Array(
-			new mock.local.Friend(1,
+			new mock.local.Friend(0,
 				"paran",
 				"arnaud",
 				"paran.arnaud@gmail.com",
 				"+33650544817",
 				0.1, 0.1),
-			new mock.local.Friend(2,
+			new mock.local.Friend(1,
 				"lebastard",
 				"simon",
 				"simon.lebastard@eleves.enpc.fr",
 				"+33750332043",
 				0.2, 0.2),
-			new mock.local.Friend(3,
+			new mock.local.Friend(2,
 				"gillier",
 				"adele",
 				"adele.gillier@eleves.enpc.fr",
 				"+34567853159",
 				0.3, 0.3),
-			new mock.local.Friend(4,
+			new mock.local.Friend(3,
 				"soulier",
 				"eloise",
 				"eloise.soulier@eleves.enpc.fr",
@@ -137,5 +149,6 @@ suite.setUp = function()
 				"Merci qui?",
 				"11/11/2011")
 			);
+			
 	vars.DB = new mock.local.localDB(vars.user, vars.friends, vars.events);
 }

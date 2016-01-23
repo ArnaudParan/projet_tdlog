@@ -15,6 +15,7 @@ class Utilisateur(models.Model):
     derniere_position_long = models.FloatField(null=True, blank=True)
     temps_position_active = models.PositiveIntegerField(default=60) # Temps en MIN au bout duquel la position se deactive automatiquement
     amis = models.ManyToManyField('Utilisateur', blank=True)
+    nb_amis = models.IntegerField(default=0)
 
     def __str__(self):
         str_id = "id : {} \n/".format(self.id)
@@ -37,6 +38,7 @@ class Evenement(models.Model):
     #temps_rappel min avant l'heure de l'evenement, il rappelle a tous les utilisateurs qu'ils ont un evenement et leur demande le droit d'activer leur position
     createur = models.ForeignKey('Utilisateur', related_name = 'topic_createur')
     participants = models.ManyToManyField('Utilisateur')
+    nb_participants = models.IntegerField(default=0)
 
     def __str__(self):
         str_id = "id : {} \n/".format(self.id)

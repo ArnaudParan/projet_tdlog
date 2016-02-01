@@ -17,9 +17,12 @@ suite.user_mail_pass_management = function(assert)
 
 	var mail = "marty.mcfly@wanadoo.fr";
 	var pass = "back to the future";
+
 	vars.DB.set_user_mail_pass(mail, pass);
-	assert.equal(vars.DB.get_user_mail(), mail, "mail checking");
-	assert.equal(vars.DB.get_user_password(), pass, "password checking");
+	var actMail = vars.DB.get_user_mail();
+	var actPass = vars.DB.get_user_password();
+	assert.equal(actMail, mail, "mail checking");
+	assert.equal(actPass, pass, "password checking");
 }
 
 suite.add_event = function(assert)
@@ -27,8 +30,9 @@ suite.add_event = function(assert)
 	var vars = test.suites.localDBMock.vars;
 	var suite = test.suites.localDBMock;
 
+	var assertDone = assert.async(1);
 	var evt = {
-		id : 1,
+		id : 2,
 		name : "festival de la verveine menthe",
 		owner : 2,
 		part : [1, 2, 3, 4],
@@ -38,6 +42,16 @@ suite.add_event = function(assert)
 		date : "50/45/2123"
 	};
 
+	var test_added = function()
+	{
+		vars.DB.get_event(evt.id, function(db_evt)
+			{
+				assert.ok(isEqual(db_evt, evt), "adding event");
+				assertDone();
+			});
+	}
+
+
 	vars.DB.add_event(evt.id,
 			evt.name,
 			evt.owner,
@@ -45,15 +59,39 @@ suite.add_event = function(assert)
 			evt.lat,
 			evt.lon,
 			evt.addr,
-			evt.date);
+			evt.date,
+			test_added);
+}
 
-	var db_evt = vars.DB.events[evt.id];
-	assert.equal(db_evt.id, evt.id);
-	assert.equal(db_evt.name, evt.name);
-	assert.equal(db_evt.owner, evt.owner);
-	assert.equal(db_evt.participants, evt.part);
-	assert.equal(db_evt.address, evt.addr);
-	assert.equal(db_evt.date, evt.date);
+suite.add_friend = function(assert)
+{
+	var vars = test.suites.localDBMock.vars;
+	var suite = test.suites.localDBMock;
+
+	var assertDone = assert.async(1);
+	var expFriend = {
+		id : 1000,
+		name : "cymes",
+		surname : "michel",
+		mail : "michel.cymes@france5.fr",
+		tel : "+33684572310"
+	}
+	var test_added = function()
+	{
+		vars.DB.get_friend_by_id(expFriend.id,
+		function(actFriend)
+		{
+			assert.ok(isEqual(actFriend, expFriend), "Friend correctly added");
+			assertDone();
+		});
+	}
+
+	vars.DB.add_friend(expFriend.id,
+			expFriend.name,
+			expFriend.surname,
+			expFriend.mail,
+			expFriend.tel,
+			test_added);
 
 }
 
@@ -62,11 +100,15 @@ suite.get_all_friends_names_tel = function(assert)
 	var vars = test.suites.localDBMock.vars;
 	var suite = test.suites.localDBMock;
 
-	var friends = vars.DB.get_all_friends_names_tel();
-	var friend2 = vars.friends[2]
-	assert.equal(friends[2].name, friend2.name, "name");
-	assert.equal(friends[2].surname, friend2.surname, "surname");
-	assert.equal(friends[2].tel, friend2.tel, "tel");
+	var assertDone = assert.async(1);
+	vars.DB.get_all_friends_names_tel(function(friends)
+			{
+				var friend2 = vars.friends[2]
+				assert.equal(friends[2].name, friend2.name, "name");
+				assert.equal(friends[2].surname, friend2.surname, "surname");
+				assert.equal(friends[2].tel, friend2.tel, "tel");
+				assertDone();
+			});
 }
 
 suite.search_friends = function(assert)
@@ -74,26 +116,34 @@ suite.search_friends = function(assert)
 	var vars = test.suites.localDBMock.vars;
 	var suite = test.suites.localDBMock;
 
-	//TODO test substrings
+	var assertDone = assert.async(5);
 	var tel0 = "0650544817";
-	var friend0 = vars.DB.search_friends(tel0);
 
 	var surname1 = vars.friends[1].surname.substring(2,5);
-	var friend1 = vars.DB.search_friends(surname1);
 
 	var mail2 = vars.friends[2].mail;
-	var friend2 = vars.DB.search_friends(mail2);
 
 	var name3 = vars.friends[3].name + "  " + vars.friends[3].surname;
-	var friend3 = vars.DB.search_friends(name3);
 
-	var all_friends = vars.DB.search_friends("");
+	var search_assertion = function(keyword, expFriend,  message)
+	{
+		vars.DB.search_friends(keyword, function(actFriend)
+				{
+					assert.equal(actFriend[0].id, expFriend.id, message);
+					assertDone();
+				});
+	}
 
-	assert.equal(friend0[0].name, vars.friends[0].name, "name");
-	assert.equal(friend1[0].mail, vars.friends[1].mail, "surname");
-	assert.equal(friend2[0].surname, vars.friends[2].surname, "tel");
-	assert.equal(friend3[0].mail, vars.friends[3].mail, "name + surname");
-	assert.equal(all_friends.length, vars.friends.length, "empty chain");
+	search_assertion(tel0, vars.friends[0], "keyword : french tel");
+	search_assertion(surname1, vars.friends[1], "keyword : surname substr");
+	search_assertion(mail2, vars.friends[2], "keyword : mail");
+	search_assertion(name3, vars.friends[3], "keyword : name substr");
+
+	vars.DB.search_friends("", function(all_friends)
+			{
+				assert.equal(all_friends.length, vars.friends.length, "empty chain");
+				assertDone();
+			});
 }
 
 suite.setUp = function()
@@ -137,5 +187,8 @@ suite.setUp = function()
 				"Merci qui?",
 				"11/11/2011")
 			);
-	vars.DB = new mock.local.localDB(vars.user, vars.friends, vars.events);
+	vars.DB = new mock.local.localDB();
+	vars.DB.user = vars.user;
+	vars.DB.friends = vars.friends;
+	vars.DB.events = vars.events;
 }

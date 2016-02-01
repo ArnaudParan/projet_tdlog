@@ -11,30 +11,42 @@
 <script type="text/javascript" src="js/index.js"></script>
 <script>
 var app = angular.module("App", ['onsen']);
+var req = new XMLHttpRequest();
+req.open("GET", "fichier.json", true); 
+req.onreadystatechange = monCode;   // la fonction de prise en charge
+req.send(null); 
+function monCode() 
+{ 
+	if (req.readyState == 4) 
+	{ 
+		var doc = JSON.parse(req.responseText); 
+		console.log(doc);
+	}
+}
 </script>
 </head>
 <body ng-app="App">
 <div class="tab-bar tab-bar--top tab-bar--top-border">
-  <label class="tab-bar__item tab-bar--top-border__item">
-    <input type="radio" name="top-tab-bar-b" checked="checked">
-    <button class="tab-bar__button tab-bar--top-border__button">
+	<label class="tab-bar__item tab-bar--top-border__item">
+		<input type="radio" name="top-tab-bar-b" checked="checked">
+		<button class="tab-bar__button tab-bar--top-border__button">
 			Home
-    </button>
-  </label>
+		</button>
+	</label>
 
-  <label class="tab-bar__item tab-bar--top-border__item" ng-controller="CommentsController">>
-    <input type="radio" name="top-tab-bar-b">
-    <button class="tab-bar__button tab-bar--top-border__button">
-      Comments
-    </button>
-  </label>
+	<label class="tab-bar__item tab-bar--top-border__item" ng-controller="CommentsController">>
+		<input type="radio" name="top-tab-bar-b">
+		<button class="tab-bar__button tab-bar--top-border__button">
+			Comments
+		</button>
+	</label>
 
-  <label class="tab-bar__item tab-bar--top-border__item" ng-controller="ActivityController">>
-    <input type="radio" name="top-tab-bar-b">
-    <button class="tab-bar__button tab-bar--top-border__button">
-      Activity
-    </button>
-  </label>
+	<label class="tab-bar__item tab-bar--top-border__item" ng-controller="ActivityController">>
+		<input type="radio" name="top-tab-bar-b">
+		<button class="tab-bar__button tab-bar--top-border__button">
+			Activity
+		</button>
+	</label>
 </div>
 <script type="text/javascript" src="cordova.js"></script>
 </body>

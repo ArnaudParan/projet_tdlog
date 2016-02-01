@@ -36,6 +36,8 @@ callbackWaiter.prototype.fire = function()
 
 var localDBManager = function(successCB, errorCB)
 {
+	errorCB = convertErrorCB(errorCB);
+	successCB = convertSuccessCB(successCB);
 	AbstractLocalDB.call(this);
 	this.storage = window.localStorage;
 	this.dbName = "Database";
@@ -98,6 +100,8 @@ localDBManager.prototype.change_user = function(name, surname, tel)
 
 localDBManager.prototype.add_event = function(eventId, name, creatorId, participantsId, latitude, longitude, address, date, successCB, errorCB)
 {
+	errorCB = convertErrorCB(errorCB);
+	successCB = convertSuccessCB(successCB);
 	//TODO test sanity
 	var nbWaitedCB = 1 + participantsId.length;
 	var cbLauncher = new callbackWaiter(nbWaitedCB, successCB);
@@ -138,6 +142,8 @@ localDBManager.prototype.add_event_query = function(id, name, creatorId, partici
 
 localDBManager.prototype.add_event_participant = function(eventId, participantId, successCB, errorCB)
 {
+	errorCB = convertErrorCB(errorCB);
+	successCB = convertSuccessCB(successCB);
 	//TODO test sanity
 	var DB = this;
 	var queryDB = function(tx)
@@ -168,6 +174,7 @@ localDBManager.prototype.add_event_participant_query = function(eventId, partici
 
 localDBManager.prototype.get_event = function(id, successCB, errorCB)
 {
+	errorCB = convertErrorCB(errorCB);
 	var evt = {};
 	evt.participants = new Array();
 	var cbLauncher = new callbackWaiter(2, function(){successCB(evt)});
@@ -212,6 +219,7 @@ localDBManager.prototype.get_event = function(id, successCB, errorCB)
 
 localDBManager.prototype.get_event_participants = function(evtId, successCB, errorCB)
 {
+	errorCB = convertErrorCB(errorCB);
 	var error = function(err)
 	{
 		console.log(err);
@@ -236,8 +244,10 @@ localDBManager.prototype.get_event_participants = function(evtId, successCB, err
 	this.db.transaction(queryDB, error);
 }
 
-localDBManager.prototype.add_friend = function(id, name, surname, mail, tel, successCB, errorrCB)
+localDBManager.prototype.add_friend = function(id, name, surname, mail, tel, successCB, errorCB)
 {
+	errorCB = convertErrorCB(errorCB);
+	successCB = convertSuccessCB(successCB);
 	//TODO test sanity
 	var DB = this;
 	var queryDB = function(tx)
@@ -269,12 +279,12 @@ localDBManager.prototype.add_friend_query = function(id, name, surname, mail, te
 	return friend_query;
 }
 
-localDBManager.prototype.get_friend_by_id = function(id, callback)
+localDBManager.prototype.get_friend_by_id = function(id, successCB, errorCB)
 {
-	var errorCB = function(err)
+	errorCB = convertErrorCB(errorCB);
+	var error = function(err)
 	{
-		console.log(err);
-		throw err;
+		errorCB(err);
 	};
 
 	var querySuccess = function(tx, results)
@@ -288,19 +298,21 @@ localDBManager.prototype.get_friend_by_id = function(id, callback)
 			mail : db_friend.mail,
 			tel : db_friend.tel
 		};
-		callback(friend);
+		successCB(friend);
 	};
 
 	var queryDB = function(tx)
 	{
-		tx.executeSql('SELECT * FROM friends WHERE id = ' + id.toString() , [], querySuccess, errorCB);
+		tx.executeSql('SELECT * FROM friends WHERE id = ' + id.toString() , [], querySuccess, error);
 	}
 
-	this.db.transaction(queryDB, errorCB);
+	this.db.transaction(queryDB, error);
 }
 
 localDBManager.prototype.drop_db = function(successCB, errorCB)
 {
+	errorCB = convertErrorCB(errorCB);
+	successCB = convertSuccessCB(successCB);
 	var dropDB = function(tx)
 	{
 		tx.executeSql('DROP TABLE friends');
@@ -334,6 +346,7 @@ localDBManager.prototype.get_all_friends_names_tel = function(successCB, errorCB
 
 localDBManager.prototype.get_all_friends = function(successCB, errorCB)
 {
+	errorCB = convertErrorCB(errorCB);
 	var error = function(err)
 	{
 		console.log(err);
@@ -367,6 +380,7 @@ localDBManager.prototype.get_all_friends = function(successCB, errorCB)
 
 localDBManager.prototype.search_friends = function(keywords, successCB, errorCB)
 {
+	errorCB = convertErrorCB(errorCB);
 	var keywordsArray = keywords.split(" ");
 	this.get_all_friends(search_from_friends, errorCB);
 	var db = this;

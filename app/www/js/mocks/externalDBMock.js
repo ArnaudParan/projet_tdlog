@@ -20,19 +20,23 @@ mock.external.externalDB.prototype.users;
 mock.external.externalDB.prototype.events;
 mock.external.externalDB.prototype.eventId;
 
-mock.external.externalDB.prototype.log_user = function(mail, password, loginSuccess, loginFailure)
+mock.external.externalDB.prototype.log_user = function(mail, password, successCB, errorCB)
 {
+    errorCB = convertErrorCB(errorCB);
+    successCB = convertSuccessCB(successCB);
     for (user of this.users) {
         if(user.mail == mail && user.password == password){
-            loginSuccess();
+            successCB();
             return;
         }
     }
-    loginFailure(new CommonException(1000));
+    errorCB(new CommonException(1000));
 }
 
 mock.external.externalDB.prototype.create_event = function(mail, password, event_name, addr, latitude, longitude, participantsId, date, successCB, errorCB)
 {
+    errorCB = convertErrorCB(errorCB);
+    successCB = convertSuccessCB(successCB);
     var db_this = this;
     this.log_user(mail,
             password,
@@ -43,12 +47,12 @@ mock.external.externalDB.prototype.create_event = function(mail, password, event
                     {
                         db_this.eventId++;
                         var evt = new mock.external.Event(db_this.eventId,
-                                event_name,
-                                owner,
-                                participantsId,
-                                new Position(latitude, longitude),
-                                addr,
-                                date);
+                            event_name,
+                            owner,
+                            participantsId,
+                            new Position(latitude, longitude),
+                            addr,
+                            date);
                         db_this.events.push(evt);
                         successCB(db_this.eventId);
                     },
@@ -64,6 +68,7 @@ mock.external.externalDB.prototype.create_event = function(mail, password, event
 
 mock.external.externalDB.prototype.get_user_id = function(mail, successCB, errorCB)
 {
+    errorCB = convertErrorCB(errorCB);
     for (user of this.users) {
         if(user.mail == mail){
             successCB(user.id);
@@ -80,6 +85,8 @@ mock.external.externalDB.prototype.search_user = function(mail, password, keywor
 
 mock.external.externalDB.prototype.set_pass = function(mail, password, new_password, successCB, errorCB)
 {
+    errorCB = convertErrorCB(errorCB);
+    successCB = convertSuccessCB(successCB);
     var db_this = this;
     this.log_user(mail,
             password,
@@ -103,6 +110,8 @@ mock.external.externalDB.prototype.set_pass = function(mail, password, new_passw
 
 mock.external.externalDB.prototype.add_user = function(name, surname, mail, tel, password, successCB, errorCB)
 {
+    errorCB = convertErrorCB(errorCB);
+    successCB = convertSuccessCB(successCB);
     for (user of this.users) {
         if (user.mail == mail) {
             errorCB(new CommonException(1001));

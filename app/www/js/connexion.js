@@ -13,6 +13,7 @@ appLogin.controller('login_form', ['$scope', function($scope) {
 
 var login_attempt = function(mail, password, successCB, errorCB)
 {
+	errorCB = convertErrorCB(errorCB);
 	var mailIsCoherent = is_mail(mail);
 
 	if (mailIsCoherent) {

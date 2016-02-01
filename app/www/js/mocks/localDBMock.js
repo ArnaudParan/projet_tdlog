@@ -34,8 +34,10 @@ mock.local.localDB.prototype.get_user_password = function()
 	return(this.user.password);
 }
 
-mock.local.localDB.prototype.add_event = function(eventId, name, creatorId, participantsId, latitude, longitude, address, date, success_callback, error_callback)
+mock.local.localDB.prototype.add_event = function(eventId, name, creatorId, participantsId, latitude, longitude, address, date, successCB, errorCB)
 {
+	errorCB = convertErrorCB(errorCB);
+	successCB = convertSuccessCB(successCB);
 	this.events.push(new mock.local.Event(
 				eventId,
 				name,
@@ -44,11 +46,12 @@ mock.local.localDB.prototype.add_event = function(eventId, name, creatorId, part
 				new Position(latitude, longitude),
 				address,
 				date));
-	success_callback();
+	successCB();
 }
 
-mock.local.localDB.prototype.get_event = function(id, success_callback, error_callback)
+mock.local.localDB.prototype.get_event = function(id, successCB, errorCB)
 {
+	errorCB = convertErrorCB(errorCB);
 	for (evt of this.events) {
 		if (evt.id === id) {
 			result = {id : evt.id,
@@ -60,15 +63,17 @@ mock.local.localDB.prototype.get_event = function(id, success_callback, error_ca
 				addr : evt.address,
 				date : evt.date
 			};
-			success_callback(result);
+			successCB(result);
 			return;
 		}
 	}
-	error_callback("event not found") //TODO create exception
+	errorCB("event not found") //TODO create exception
 }
 
 mock.local.localDB.prototype.add_friend = function(id, name, surname, mail, tel, successCB, errorCB)
 {
+	errorCB = convertErrorCB(errorCB);
+	successCB = convertSuccessCB(successCB);
 	var newFriend = new mock.local.Friend(id,
 			name,
 			surname,
@@ -83,6 +88,7 @@ mock.local.localDB.prototype.add_friend = function(id, name, surname, mail, tel,
 
 mock.local.localDB.prototype.get_friend_by_id = function(id, successCB, errorCB)
 {
+	errorCB = convertErrorCB(errorCB);
 	for (friend of this.friends) {
 		if (friend.id === id) {
 			var result = {
@@ -100,6 +106,7 @@ mock.local.localDB.prototype.get_friend_by_id = function(id, successCB, errorCB)
 
 mock.local.localDB.prototype.get_all_friends_names_tel = function(successCB, errorCB)
 {
+	errorCB = convertErrorCB(errorCB);
 	var transcripted_friends = Array();
 	for (friend of this.friends) {
 		var current_friend = {
@@ -114,6 +121,7 @@ mock.local.localDB.prototype.get_all_friends_names_tel = function(successCB, err
 
 mock.local.localDB.prototype.search_friends = function(keywords, successCB, errorCB)
 {
+	errorCB = convertErrorCB(errorCB);
 	var keywordsArray = keywords.split(" ");
 	var matching_friends = Array();
 	for (friend of this.friends) {

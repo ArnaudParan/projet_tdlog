@@ -8,7 +8,6 @@ swipe = function(arr, i, j){
 
 var geocoder;
 var map;
-var search_position = Array();
 
 initialize = function() {
   geocoder = new google.maps.Geocoder();

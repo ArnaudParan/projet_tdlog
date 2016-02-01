@@ -8,12 +8,14 @@ class Utilisateur(models.Model):
     numero_tel = models.CharField(max_length=12)
     email = models.CharField(max_length=100)
     possede_appli = models.BooleanField() 
+    geoloc_active = models.BooleanField(default=False)
     position_actuelle_lat = models.FloatField(null=True, blank=True)
     position_actuelle_long = models.FloatField(null=True, blank=True)
     derniere_position_lat = models.FloatField(null=True, blank=True)
     derniere_position_long = models.FloatField(null=True, blank=True)
     temps_position_active = models.PositiveIntegerField(default=60) # Temps en MIN au bout duquel la position se deactive automatiquement
     amis = models.ManyToManyField('Utilisateur', blank=True)
+    nb_amis = models.IntegerField(default=0)
 
     def __str__(self):
         str_id = "id : {} \n/".format(self.id)
@@ -36,6 +38,7 @@ class Evenement(models.Model):
     #temps_rappel min avant l'heure de l'evenement, il rappelle a tous les utilisateurs qu'ils ont un evenement et leur demande le droit d'activer leur position
     createur = models.ForeignKey('Utilisateur', related_name = 'topic_createur')
     participants = models.ManyToManyField('Utilisateur')
+    nb_participants = models.IntegerField(default=0)
 
     def __str__(self):
         str_id = "id : {} \n/".format(self.id)

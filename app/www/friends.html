@@ -11,42 +11,50 @@
 	<script src="bower_components/OnsenUI/js/onsenui.min.js"></script>
 
 	<script src="js/abstractLocalDB.js"></script>
+	<script src="js/abstractExternalDB.js"></script>
 	<script src="js/mocks/localDBMock.js"></script>
+	<script src="js/mocks/externalDBMock.js"></script>
 	<script src="js/global_variables.js"></script>
 	<script src="js/friends.js"></script>
 
 </head>
 	
 <body ng-app="appFriends" ng-controller="friend_Controller">
-	<ons-tabbar>
-		<ons-tab page="people.html">
-			<ons-icon icon="ion-ios7-chatboxes" class="tab-icon">
-			</ons-icon><span class="tab-label">Messages</span>
-		</ons-tab>
-		
-		<ons-tab page="people.html" active="true">
-			<ons-icon icon="ion-ios7-people" class="tab-icon">
-			</ons-icon><span class="tab-label">Friends</span>
-		</ons-tab>
-
-		<ons-tab page="people.html">
-			<ons-icon icon="ion-person" class="tab-icon">
-			</ons-icon><span class="tab-label">Me</span>
-		</ons-tab>
-	</ons-tabbar>
 	
-	<ons-template id="people.html">
-	<ons-page>
-	<ons-toolbar>
-		<div class="center">
-			Friends
+	<div class="navigation-bar">
+		<div class="navigation-bar__left">
+			<span class="toolbar-button--quiet navigation-bar__line-height">
+			<ons-icon icon="fa-home" color="blue" ng-click="reload()"></ons-icon>
+			</span>
 		</div>
-		<div class="right">
-			<ons-toolbar-button>
-				<ons-icon icon="ion-plus" fixed-width="false" style="vertical-align: -4px;" ng-click="friend_request()"></ons-icon>
-			</ons-toolbar-button>
+
+		<div class="navigation-bar__center">
+			joinUp!
 		</div>
-	</ons-toolbar>
+	</div>
+	
+	<div class="tab-bar tab-bar--top tab-bar--top-border">
+		<label class="tab-bar__item tab-bar--top-border__item">
+			<input type="radio" name="top-tab-bar-b">
+			<button class="tab-bar__button tab-bar--top-border__button">
+				What's hot
+			</button>
+		</label>
+
+		<label class="tab-bar__item tab-bar--top-border__item" ng-controller="selectionController">
+			<input type="radio" name="top-tab-bar-b" checked="checked">
+			<button class="tab-bar__button tab-bar--top-border__button" >
+				Friends
+			</button>
+		</label>
+
+		<label class="tab-bar__item tab-bar--top-border__item" ng-controller="selectionController">>
+			<input type="radio" name="top-tab-bar-b" ng-click="app.navi.pushPage('account.html');">
+			<button class="tab-bar__button tab-bar--top-border__button" >
+				Account
+			</button>
+		</label>
+	</div>
 	
 	<div class="navigation-bar">
 		<span class="navigation-bar__center" width=90%>

@@ -1,54 +1,268 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<link rel="stylesheet" href="bower_components/OnsenUI/css/onsenui.css"/>
-<link rel="stylesheet" href="bower_components/OnsenUI/css/onsen-css-components-blue-theme.css"/>
-<link rel="stylesheet" href="bower_components/OnsenUI/css/ionicons/css/ionicons.css"/>
-<link rel="stylesheet" href="css/index.css"/>
-<script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
-<script type="text/javascript" src="bower_components/OnsenUI/js/onsenui.min.js"></script>
-<script type="text/javascript" src="js/index.js"></script>
-<script>
-var app = angular.module("App", ['onsen']);
-var req = new XMLHttpRequest();
-req.open("GET", "fichier.json", true); 
-req.onreadystatechange = monCode;   // la fonction de prise en charge
-req.send(null); 
-function monCode() 
-{ 
-	if (req.readyState == 4) 
-	{ 
-		var doc = JSON.parse(req.responseText); 
-		console.log(doc);
-	}
-}
-</script>
+	<meta charset="utf-8">
+	
+	<!-- Dependances css -->
+	<link rel="stylesheet" href="bower_components/OnsenUI/css/onsenui.css">
+	<link rel="stylesheet" href="bower_components/OnsenUI/css/onsen-css-components-blue-basic-theme.css">
+	<link rel="stylesheet" href="node_modules/ng-datepicker/src/css/ngDatepicker.css">
+	<link rel="stylesheet" href="css/index.css">
+	<link rel="stylesheet" href="css/event.css">	
+
+	<!-- Dépendances Angularjs / Onsen -->
+	<script src="bower_components/angular/angular.min.js"></script>
+	<script src="bower_components/angular-route/angular-route.min.js"></script>
+	<script src="bower_components/angular/angular-messages.js"></script>
+	<script src="bower_components/OnsenUI/js/onsenui.min.js"></script>
+	
+	<!-- Dépendances au module ng-datepicker -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment-with-locales.min.js"></script>
+	<script src="node_modules/ng-datepicker/src/js/ngDatepicker.js"></script>
+	
+	<!-- Dépendances au mocks -->
+	<script src="js/abstractLocalDB.js"></script>
+	<script src="js/mocks/localDBMock.js"></script>
+	<script src="js/mocks/externalDBMock.js"></script>
+	<script src="js/global_variables.js"></script>
+	
+	<!-- AngularJS driver -->
+	<script src="js/index.js"></script>
+	<script src="js/event.js"></script>
+			
+	
+	<!-- CSP support mode (required for Windows Universal apps) -->
+	<link rel="stylesheet" href="lib/angular/angular-csp.css" />
+		
 </head>
-<body ng-app="App">
-<div class="tab-bar tab-bar--top tab-bar--top-border">
-	<label class="tab-bar__item tab-bar--top-border__item">
-		<input type="radio" name="top-tab-bar-b" checked="checked">
-		<button class="tab-bar__button tab-bar--top-border__button">
-			Home
-		</button>
-	</label>
+	
+	<body ng-app="indexModule" ng-controller="globalController">
 
-	<label class="tab-bar__item tab-bar--top-border__item" ng-controller="CommentsController">>
-		<input type="radio" name="top-tab-bar-b">
-		<button class="tab-bar__button tab-bar--top-border__button">
-			Comments
-		</button>
-	</label>
+	<ons-navigator animation="slide" var="app.navi">
+		<ons-page>	
+		
+		
+		<!-- Barre d'onglets -->
+	<div class="navigation-bar">
+		<div class="navigation-bar__left">
+			<span class="toolbar-button--quiet navigation-bar__line-height">
+			<ons-icon icon="fa-home" color="blue" ng-click="reload()"></ons-icon>
+			</span>
+		</div>
 
-	<label class="tab-bar__item tab-bar--top-border__item" ng-controller="ActivityController">>
-		<input type="radio" name="top-tab-bar-b">
-		<button class="tab-bar__button tab-bar--top-border__button">
-			Activity
-		</button>
-	</label>
-</div>
-<script type="text/javascript" src="cordova.js"></script>
+		<div class="navigation-bar__center">
+			joinUp!
+		</div>
+	</div>
+	
+	<div class="tab-bar tab-bar--top tab-bar--top-border">
+		<label class="tab-bar__item tab-bar--top-border__item">
+			<input type="radio" name="top-tab-bar-b" checked="checked">
+			<button class="tab-bar__button tab-bar--top-border__button">
+				What's hot
+			</button>
+		</label>
+
+		<label class="tab-bar__item tab-bar--top-border__item" ng-controller="selectionController">
+			<input type="radio" name="top-tab-bar-b" ng-click="app.navi.pushPage('friends.html',{navi: app.navi});">
+			<button class="tab-bar__button tab-bar--top-border__button" >
+				Friends
+			</button>
+		</label>
+
+		<label class="tab-bar__item tab-bar--top-border__item" ng-controller="selectionController">>
+			<input type="radio" name="top-tab-bar-b" ng-click="app.navi.pushPage('account.html');">
+			<button class="tab-bar__button tab-bar--top-border__button" >
+				Account
+			</button>
+		</label>
+	</div>
+	
+	<!-- Map -->
+	<div id="map"></div>
+	<script>
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: -34.397, lng: 150.644},
+          zoom: 8
+        });
+      }
+    </script>
+	<!-- Dépendances au module de l'API Android Maps -->
+	<script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKk2RPrKeU9Vf-re1AI7YhcLxXjtsKDKw&callback=initMap">
+    </script>
+	<ons-row ng-controller="hottestEvent">
+		<ons-col>
+			{{hottestEvent.name}}
+		</ons-col>
+		<ons-col>
+			{{hottestEvent.date}}
+		</ons-col>
+	</ons-row>
+	<ons-row ng-controller="hottestEvent">
+		<ons-col>
+			{{hottestEvent.address}}
+		</ons-col>
+	</ons-row>
+	<ons-row ng-controller="hottestEvent">
+		<ons-col>
+			{{hottestEvent.chrono}}
+		</ons-col>
+	</ons-row>
+	
+	<!-- Evenements en cours - Barre à déployer -->
+	<ons-list class="list">
+		<ons-list-item class="list__header">Événements à venir</ons-list-item>
+		<ons-list-item class="list__item list__item--tappable">Ciné Châtelet</ons-list-item>
+		<ons-list-item class="list__item list__item--tappable">Musée Arts Ludiques</ons-list-item>
+	</ons-list>
+
+	
+	<!-- Créer un événement -->
+	<ons-row ng-controller="createEvent">
+		<button class="button button--large" ng-click="app.navi.pushPage('eventForm.html');">Créer un nouvel événement</button>
+	</ons-row>
+	
+	</ons-page>
+	
+	<ons-template id="eventForm.html" onload="initialize()" ng-app="eventGenerator" ng-controller="eventController">
+		<ons-page>
+			<link rel="stylesheet" href="css/event.css">
+			<script src="js/event.js"></script>
+			<ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button ng-click="app.navi.popPage()">
+                        <ons-icon icon="fa-arrow-left" size="28px" fixed-width="false"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+                <div class="center">Créer un événement</div>
+            </ons-toolbar>
+			
+			<ons-row style="margin-top: 20px; margin-left: 20px;">
+                <ons-col>
+                    <input type="text" class="text-input text-input--underbar" style="width: 96%; margin: 6px auto 6px auto;" placeholder="Titre de l'événement" ng-model='event.title'>
+                </ons-col>
+				
+				<ons-col>
+                    <ng-datepicker ng-model="event.date" placeholder="Entrer un date" class="text-input text-input--underbar">
+					</ng-datepicker>
+                </ons-col>
+            </ons-row>
+			
+			<ons-row style="margin-top: 20px; margin-left: 20px;">
+                <ons-col>
+                    <input type="text" class="text-input text-input--underbar" style="width: 96%; margin: 6px auto 6px auto;" placeholder="Adresse du RDV" ng-model='event.address' id="search_address" ng-keydown="$scope.onKeyDown($event)">
+                </ons-col>
+            </ons-row>
+				
+			<div id="map" style=" margin-left: auto; margin-right: auto; width:350px">
+			</div>
+			
+			<ons-row style="margin-top: 20px; margin-left: 20px;">
+                <ons-col>
+                    <textarea id="event-input" class="textarea textarea--transparent" rows="2" placeholder="Description">
+					</textarea>
+                </ons-col>
+            </ons-row>
+			
+			<ons-row style="margin-top: 20px; margin-left: 20px;">
+                <ons-col>
+					<ons-button modifier="light" ng-click="app.navi.pushPage('eventFriends.html')">
+						<ons-icon icon="fa-user-plus" ></ons-icon>
+                    </ons-button>
+                     Ajouter des amis
+                </ons-col>
+            </ons-row>
+			
+	<div id='selected_friend_list'>
+		<ons-list class="friend-list">
+			<ons-list-item class="person" modifier="tappable" ng-repeat="(key,friend) in friends.selected">
+				<ons-row>
+					<ons-col width="40px">
+					</ons-col>
+					<ons-col class="person-name">
+						{{friend.name}} {{friend.surname}}
+					</ons-col>
+					<ons-col class="person-number">
+						{{friend.tel}}
+					</ons-col>
+					<ons-col >
+						{{display_invite_status(key)}}
+					</ons-col>
+					<ons-col>
+						<ons-button>
+							<ons-icon icon="fa-times" ng-click="remove_from_event(key,friend)"></ons-icon>
+						</ons-button>
+					</ons-col>
+				</ons-row>
+			</ons-list-item>
+		</ons-list>
+	</div>
+	
+			<ons-row style="margin-top: 20px; margin-left: 20px;">	
+				<ons-col width = 70px align="center">			
+				<label class="switch">
+					<input type="checkbox" class="switch__input" checked>
+					<span class="switch__toggle"></span>
+				</label>
+				</ons-col>
+				<ons-col align="center">
+				Envoyer des rappels
+				</ons-col>
+            </ons-row>
+			
+			<ons-row style="margin-top: 20px; margin-left: 20px;">			
+				<ons-col>
+					<button class="button button--large">Créer l'événement</button><br>
+                </ons-col>
+            </ons-row>
+		</ons-page>
+	</ons-template>
+
+	<ons-template id="eventFriends.html" ng-app="eventGenerator" ng-controller="eventController">
+        <ons-page>
+        	<link rel="stylesheet" href="css/event.css">
+			<script src="js/event.js"></script>
+            <ons-toolbar>
+                <div class="center">Ajouter des amis à cet événement</div>
+				<div class="right">
+					<ons-toolbar-button ng-click="app.navi.popPage()">
+						<ons-icon icon="fa-arrow-left"></ons-icon>
+					</ons-toolbar-button>
+				</div>
+            </ons-toolbar>
+			
+	<div class="navigation-bar">
+		<div class="navigation-bar__center">
+			<input type="search" class="search-input" style="width: 96%; margin: 6px auto 6px auto;" placeholder="Search" ng-model='request' ng-change='search_a_friend(request)' >
+			
+		</div>
+	</div>
+	
+	<div id='friend_list'>
+		<ons-list class="person-list">
+			<ons-list-item class="person" modifier="tappable" ng-repeat="(key,friend) in friends.all">
+				<ons-row name="friendsList" ng-click="addFriend2Selection(key,friend)" ng-style="status.style[key]">
+					<ons-col width="40px">
+					</ons-col>
+					<ons-col class="person-name">
+						{{friend.name}} {{friend.surname}}
+					</ons-col>
+					<ons-col class="person-number">
+						{{friend.tel}}
+					</ons-col>
+				</ons-row>
+			</ons-list-item>
+		</ons-list>
+	</div>
+
+        </ons-page>
+    </ons-template>
+	
+</ons-navigator>
 </body>
+
 </html>
 

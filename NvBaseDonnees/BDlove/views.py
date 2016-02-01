@@ -3,21 +3,26 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login
 
-from .models import Utilisateur,Evenement
-from .accessoires import is_user, is_mail, is_tel
+from .models import Utilisateur, Evenement
+from .accessoires import *
+from .exceptions import Exception_sans_var, Exception_avec_var, Exception_participant
+#from .var_globales.py import chiperkey
+
 
 import datetime
 import json
-
+import re
 
 
 def login(request):
     email = request.GET['email']
     hashe = request.GET['mdp_hashe']
-    if is_user(email,hashe):
+  
+    try:
+        verifie_user(email,hashe)
         return HttpResponse(json.dumps({'resultat':'success'}), content_type='application/json')
-    else:
-        return HttpResponse(json.dumps({'resultat':'fail', 'error':'1000', 'message_erreur':'c\'est du caca'}), content_type='application/json')
+    except Exception_sans_var as e:
+        return HttpResponse(json.dumps({'resultat':'fail', 'error':str(e.numero), 'message_erreur':e.message_exception()}), content_type='application/json')
     
 def create_event(request):
     email = request.GET['email']
@@ -28,31 +33,42 @@ def create_event(request):
     nom = request.GET['nom']
     #date = request.GET['date']
     id_createur = request.GET['id']
-    createur0=Utilisateur.objects.filter(id=id_createur).first()
     nb_participants = int(request.GET['nb_participants'])
-    if is_user(email,pwd):
-        evenement=Evenement(nom=nom,date=datetime.datetime.now(),lieu_geo_lat=latitude, lieu_geo_long=longitude,createur=createur0)
+
+    try:
+        verifie_user(email, pwd)
+        createur0 = get_verifie_identifiant_user(id_createur)
+        evenement = Evenement(nom=nom,date=datetime.datetime.now(),lieu_geo_lat=latitude, lieu_geo_long=longitude,createur=createur0)
         evenement.save() 
         evenement.participants.add(id_createur)
         for j in range(1,nb_participants):
             id_ami = request.GET['ami{}'.format(j)]
-            participant = Utilisateur.objects.filter(id=id_ami).first()
-            if participant is not None:
-                evenement.participants.add(participant) 
+            # TO DO si un identifiant participant est faux, le programme s'arrete or on peut ajouter les autres participants
+            participant = get_verifie_identifiant_user(id_ami)
+            evenement.participants.add(participant) 
         return HttpResponse(json.dumps({'resultat':'success','id_evenement':evenement.id } ), content_type='application/json')
       
-        
-    else: 
-        return HttpResponse(json.dumps({'resultat':'fail', 'error':'1002', 'message_erreur':'t\'existes pas tu peux pas créer d\'évènement bolosse'}),  content_type='application/json')
+    except Exception_sans_var as e: # mauvais mail ou mdp 
+        return HttpResponse(json.dumps({'resultat':'fail', 'error':str(e.numero), 'error_message':e.message_exception()}),  content_type='application/json')
+    
+    except Exception_avec_var as e2: # mauvais identifiant
+        return HttpResponse(json.dumps({'resultat':'fail', 'error':str(e2.numero), 'error_message':e2.message_exception(), 'error_value': str(e2.valeur()) }),  content_type='application/json')
+     
+    except Exception_participant as e3: # un ou plusieurs participant n'est pas bon
+        return HttpResponse(json.dumps({'resultat':'success','error':str(e3.numero), 'error_message':e3.message_exception(), 'error_value': str(e3.valeur()) }), content_type='application/json')
+        # TO DO s'il y a eu plusieurs participants faux comment les afficher tous?
 
 
 def get_user_id(request):
     email = request.GET['email']
-    user = Utilisateur.objects.filter(email=email).first()
-    if user is not None:
+    
+    try:
+        user = get_verifie_email_user(email)
         return HttpResponse(json.dumps({'resultat':'success', 'id':user.id}), content_type='application/json')
-    else:
-        return HttpResponse(json.dumps({'resultat':'fail', 'error':'1000', 'message_erreur':'c\'est du caca'}), content_type='application/json')
+   
+    except Exception_avec_var as e: #mauvais mail ou pas d'utilisateur 
+        return HttpResponse(json.dumps({'resultat':'fail', 'error':str(e.numero), 'error_message':e.message_exception()}),  content_type='application/json')
+
 
 
 
@@ -61,41 +77,45 @@ def get_user_id(request):
 
 #TODO returns an id if exists, and throws a CommonException(1003) if the user does not exist
 
+
 def add_user(request):
     nom = request.GET['nom']
     prenom = request.GET['prenom']
     num = request.GET['numero']
     email = request.GET['email']
     pwd = request.GET['mdp']
-    if is_mail(email):
-        if is_tel(num):
-            if Utilisateur.objects.filter(email=email).first() is not None:
-                return HttpResponse(json.dumps({'resultat':'fail', 'error':'1000', 'message_erreur':'cet utilisateur existe déjà'}), content_type='application/json')
-            else:
-                user = Utilisateur(nom=nom, prenom=prenom, mdp_hashe=pwd, numero_tel=num,email=email, possede_appli=True)
-                user.save()
-                return HttpResponse(json.dumps({'resultat':'success', 'id':user.id}), content_type='application/json')
-        else:
-            return HttpResponse(json.dumps({'resultat':'fail', 'error':'1000','message_erreur':'numero non valide'}), content_type='application/json')
-    else: 
-        return HttpResponse(json.dumps({'resultat':'fail', 'error':'1000','message_erreur':'mail non valide'}), content_type='application/json')     
-     
+
+    try:
+        verifie_mail(email)
+        verifie_tel(num)
+        verifie_inexistant_mail_user(email)
+        user = Utilisateur(nom=nom, prenom=prenom, mdp_hashe=pwd, numero_tel=num,email=email, possede_appli=True)
+        # TO DO hachage du mdp
+        user.save()
+        return HttpResponse(json.dumps({'resultat':'success', 'id':user.id}), content_type='application/json')
+
+    except Exception_avec_var as e1: # mauvais mail, mauvais tel, ou email deja existant
+        return HttpResponse(json.dumps({'resultat':'fail', 'error':str(e1.numero), 'error_message':e1.message_exception(), 'error_value': e1.valeur()}), content_type='application/json')
+
+
 
 def add_contact(request):
     email = request.GET['email']
     pwd = request.GET['mdp']
     id_ami = request.GET['id_ami']
-    ami = Utilisateur.objects.filter(id = id_ami).first()
-    if ami is not None:
-        if is_user(email,pwd):
-            user=Utilisateur.objects.filter(email = email).first()
-            user.amis.add(ami)
-            return HttpResponse(json.dumps({'resultat':'success'}), content_type='application/json')
-        else:
-            return HttpResponse(json.dumps({'resultat':'fail', 'error':'1000', 'message_erreur':'tu n\'existes pas'}), content_type='application/json')
-    else:
-         return HttpResponse(json.dumps({'resultat':'fail', 'error':'1000', 'message_erreur':'utilisateur inconnu'}),content_type='application/json')
 
+    try:
+        verifie_user(email,pwd)
+        user = Utilisateur.objects.filter(email = email).first()
+        ami = get_verifie_identifiant_user(id_ami)
+        user.amis.add(ami)
+        return HttpResponse(json.dumps({'resultat':'success'}), content_type='application/json')
+        
+    except Exception_sans_var as e1: # mauvais mail et mdp
+        return HttpResponse(json.dumps({'resultat':'fail', 'error':str(e1.numero), 'error_message':e1.message_exception()}), content_type='application/json')
+
+    except Exception_participant as e2: # id-ami faux
+        return HttpResponse(json.dumps({'resultat':'fail', 'error':str(e2.numero), 'error_message':e2.message_exception(), 'valeur erronnee': e2.valeur()}), content_type='application/json')
 
 
 

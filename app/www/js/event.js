@@ -38,15 +38,17 @@ codeAddress = function() {
 
 eventGenerator.controller('eventController', ['$scope', '$rootScope', function($scope, $rootScope) {
 	// Liste des amis de l'utilisateur
-  $scope.friends = {
-	  all: localDB.get_all_friends_names_tel(),
-	  selected: Array(),
-	  };	
-	  
-	  $scope.status = {
-		  selected: selectionArray(),
-		  style: styleArray()
-		  }
+	localDB.get_all_friends_names_tel(function(friends_array)
+	{
+		$scope.friends = {
+			all: friends_array,
+			selected: Array(),
+	  	};
+	 	 $scope.status = {
+			  selected: selectionArray(),
+			  style: styleArray()
+	 	 }	
+	});
   
   function selectionArray(){
 	  var ar = Array();    
@@ -73,7 +75,10 @@ eventGenerator.controller('eventController', ['$scope', '$rootScope', function($
   // Requete renseignee dans le champ de recherche
   $scope.request = "";
   $scope.search_a_friend = function(req){
-	  $scope.friends.all = localDB.search_friends(req);
+	   localDB.search_friends(req, function(friends_array)
+	  	{
+	  		$scope.friends.all = friends_array;
+	  	});
   }
   $scope.addFriend2Selection = function(key,fri){
 	  if(!$scope.isSelected(key))

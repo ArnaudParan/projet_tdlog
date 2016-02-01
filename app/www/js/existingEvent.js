@@ -1,4 +1,4 @@
-var eventGenerator = angular.module('eventGenerator', ['onsen', 'jkuri.datepicker']);
+var eventApp = angular.module('eventGenerator', ['onsen', 'jkuri.datepicker']);
 
 swipe = function(arr, i, j){
 	var tmp = arr[i];
@@ -35,7 +35,7 @@ codeAddress = function() {
   });
 }
 
-eventGenerator.controller('eventController', ['$scope', '$rootScope', function($scope, $rootScope) {
+eventDisplayer.controller('eventController', ['$scope', '$rootScope', function($scope, $rootScope) {
 	// Liste des amis de l'utilisateur
   $scope.friends = {
 	  all: localDB.get_all_friends_names_tel(),

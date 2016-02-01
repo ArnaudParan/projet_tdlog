@@ -4,33 +4,30 @@ appLogin.controller('login_form', ['$scope', function($scope) {
 	$scope.mail = "";
 	$scope.pass = "";
 	$scope.confirm_log = function(mail, password){
-		try {
-			login_attempt(mail, password);
-			//passer à la page suivante
-		} catch(err) {
-			console.log(err.toString());
-			alert(err.toString());
-		}
+		login_attempt(mail, password, function()
+			{
+				//passer à la page suivante
+			});
 	};
 }]);
 
-var login_attempt = function(mail, password)
+var login_attempt = function(mail, password, successCB, errorCB)
 {
 	var mailIsCoherent = is_mail(mail);
 
 	if (mailIsCoherent) {
-		if (externalDB.log_user(mail, password)){
-			console.log("connection attempt is successful");
-			user_mail = mail;
-			user_password = password;
-			localDB.set_user_mail_pass(mail, password);
-		}
-		else {
-			throw new CommonException(1000);
-		}
+		externalDB.log_user(mail, password, function()
+				{
+					console.log("%clogin attempt is successful", "color : green; font-style : italic");
+					user_mail = mail;
+					user_password = password;
+					localDB.set_user_mail_pass(mail, password);
+					successCB();
+				},
+				errorCB);
 	}
 	else {
-		throw new CommonException(2001);
+		errorCB(new CommonException(2001));
 	}
 }
 

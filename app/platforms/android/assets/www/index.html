@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr" ng-app="AppController">
+<html lang="fr">
 <head>
 <meta charset="utf-8">
 <link rel="stylesheet" href="bower_components/OnsenUI/css/onsenui.css"/>
@@ -8,29 +8,28 @@
 <link rel="stylesheet" href="css/index.css"/>
 <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
 <script type="text/javascript" src="bower_components/OnsenUI/js/onsenui.min.js"></script>
-<script type="text/javascript" src="bower_components/OnsenUI/js/onsenui_all.min.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 <script>
-ons.bootstrap()
+var app = angular.module("App", ['onsen']);
 </script>
 </head>
-<body ng-controller="AppController">
+<body ng-app="App">
 <div class="tab-bar tab-bar--top tab-bar--top-border">
   <label class="tab-bar__item tab-bar--top-border__item">
     <input type="radio" name="top-tab-bar-b" checked="checked">
     <button class="tab-bar__button tab-bar--top-border__button">
-      Home
+			Home
     </button>
   </label>
 
-  <label class="tab-bar__item tab-bar--top-border__item">
+  <label class="tab-bar__item tab-bar--top-border__item" ng-controller="CommentsController">>
     <input type="radio" name="top-tab-bar-b">
     <button class="tab-bar__button tab-bar--top-border__button">
       Comments
     </button>
   </label>
 
-  <label class="tab-bar__item tab-bar--top-border__item">
+  <label class="tab-bar__item tab-bar--top-border__item" ng-controller="ActivityController">>
     <input type="radio" name="top-tab-bar-b">
     <button class="tab-bar__button tab-bar--top-border__button">
       Activity

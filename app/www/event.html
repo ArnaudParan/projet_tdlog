@@ -25,9 +25,16 @@
     </script>
 	
 	<!-- Dépendances au mocks -->
+	<script src="js/common_functions.js"></script>
+	<script src="js/exceptions.js"></script>
 	<script src="js/abstractLocalDB.js"></script>
+	<script src="js/abstractExternalDB.js"></script>
+	<script src="js/localDB.js"></script>
+
+	<!--mocks-->
 	<script src="js/mocks/localDBMock.js"></script>
 	<script src="js/mocks/externalDBMock.js"></script>
+
 	<script src="js/global_variables.js"></script>
 	
 	<!-- AngularJS driver -->
@@ -35,6 +42,9 @@
 	
 	<!-- CSP support mode (required for Windows Universal apps) -->
 	<link rel="stylesheet" href="lib/angular/angular-csp.css" />
+
+	<!-- Mocks files-->
+
 
 </head>
 	
@@ -96,7 +106,7 @@
 			
 			<ons-row style="margin-top: 20px; margin-left: 20px;">
                 <ons-col>
-                    <input type="text" class="text-input text-input--underbar" style="width: 96%; margin: 6px auto 6px auto;" placeholder="Titre de l'événement" ng-model='event.title' >
+                    <input type="text" class="text-input text-input--underbar" style="width: 96%; margin: 6px auto 6px auto;" placeholder="Titre de l'événement" ng-model='event.title'>
                 </ons-col>
 				
 				<ons-col>

@@ -8,6 +8,7 @@
 test.suites.login = {};
 test.suites.login.vars = {};
 
+/*
 test.suites.login.login_attempt = function(assert)
 {
 	var user2 = {mail :"exception_thrown", pass :"error"};
@@ -22,6 +23,7 @@ test.suites.login.login_attempt = function(assert)
 			new CommonException(2001),
 			"Exception 2001 when email is wrong");
 }
+*/
 
 test.suites.login.is_mail = function(assert)
 {

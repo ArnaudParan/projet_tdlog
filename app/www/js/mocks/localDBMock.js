@@ -9,12 +9,9 @@ if (typeof mock == "undefined") {
 
 mock.local = {}
 
-mock.local.localDB = function(user, friends, events)
+mock.local.localDB = function()
 {
 	AbstractLocalDB.call(this);
-	this.user = user;
-	this.friends = friends;
-	this.events = events;
 };
 mock.local.localDB.prototype = new AbstractLocalDB();
 mock.local.localDB.prototype.user;
@@ -29,16 +26,18 @@ mock.local.localDB.prototype.set_user_mail_pass = function(mail, password)
 
 mock.local.localDB.prototype.get_user_mail = function()
 {
-	return this.user.mail;
+	return(this.user.mail);
 }
 
 mock.local.localDB.prototype.get_user_password = function()
 {
-	return this.user.password;
+	return(this.user.password);
 }
 
-mock.local.localDB.prototype.add_event = function(eventId, name, creatorId, participantsId, latitude, longitude, address, date)
+mock.local.localDB.prototype.add_event = function(eventId, name, creatorId, participantsId, latitude, longitude, address, date, successCB, errorCB)
 {
+	errorCB = convertErrorCB(errorCB);
+	successCB = convertSuccessCB(successCB);
 	this.events.push(new mock.local.Event(
 				eventId,
 				name,
@@ -47,15 +46,67 @@ mock.local.localDB.prototype.add_event = function(eventId, name, creatorId, part
 				new Position(latitude, longitude),
 				address,
 				date));
+	successCB();
 }
 
-mock.local.localDB.prototype.add_friend = function(id, tel, name)
+mock.local.localDB.prototype.get_event = function(id, successCB, errorCB)
 {
-	//TODO
+	errorCB = convertErrorCB(errorCB);
+	for (evt of this.events) {
+		if (evt.id === id) {
+			result = {id : evt.id,
+				name: evt.name,
+				owner : evt.owner,
+				part : evt.participants,
+				lat : evt.position.latitude,
+				lon : evt.position.longitude,
+				addr : evt.address,
+				date : evt.date
+			};
+			successCB(result);
+			return;
+		}
+	}
+	errorCB("event not found") //TODO create exception
 }
 
-mock.local.localDB.prototype.get_all_friends_names_tel = function()
+mock.local.localDB.prototype.add_friend = function(id, name, surname, mail, tel, successCB, errorCB)
 {
+	errorCB = convertErrorCB(errorCB);
+	successCB = convertSuccessCB(successCB);
+	var newFriend = new mock.local.Friend(id,
+			name,
+			surname,
+			mail,
+			tel,
+			0.0,
+			0.0
+			);
+	this.friends.push(newFriend);
+	successCB();
+}
+
+mock.local.localDB.prototype.get_friend_by_id = function(id, successCB, errorCB)
+{
+	errorCB = convertErrorCB(errorCB);
+	for (friend of this.friends) {
+		if (friend.id === id) {
+			var result = {
+				id : friend.id,
+				name : friend.name,
+				surname : friend.surname,
+				mail : friend.mail,
+				tel : friend.tel
+			};
+			successCB(result);
+			return;
+		}
+	}
+}
+
+mock.local.localDB.prototype.get_all_friends_names_tel = function(successCB, errorCB)
+{
+	errorCB = convertErrorCB(errorCB);
 	var transcripted_friends = Array();
 	for (friend of this.friends) {
 		var current_friend = {
@@ -65,11 +116,12 @@ mock.local.localDB.prototype.get_all_friends_names_tel = function()
 			tel : friend.tel};
 		transcripted_friends.push(current_friend);
 	}
-	return transcripted_friends;
+	successCB(transcripted_friends);
 }
 
-mock.local.localDB.prototype.search_friends = function(keywords)
+mock.local.localDB.prototype.search_friends = function(keywords, successCB, errorCB)
 {
+	errorCB = convertErrorCB(errorCB);
 	var keywordsArray = keywords.split(" ");
 	var matching_friends = Array();
 	for (friend of this.friends) {
@@ -82,7 +134,7 @@ mock.local.localDB.prototype.search_friends = function(keywords)
 			matching_friends.push(friend);
 		}
 	}
-	return matching_friends;
+	successCB(matching_friends);
 }
 
 mock.local.localDB.prototype.match_keyword_friend = function(keyword, friend)
@@ -224,3 +276,6 @@ mock.local.events = Array(new mock.local.Event(1,
 		);
 		
 mock.local.DB = new mock.local.localDB(mock.local.user, mock.local.friends, mock.local.events);
+mock.local.DB.user = mock.local.user;
+mock.local.DB.friends = mock.local.friends;
+mock.local.DB.events = mock.local.events;

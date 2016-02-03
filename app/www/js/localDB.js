@@ -341,7 +341,7 @@ localDBManager.prototype.drop_db = function(successCB, errorCB)
 //Deprecated, the function does not match her name anymore
 localDBManager.prototype.get_all_friends_names_tel = function(successCB, errorCB)
 {
-	this.get_all_friends_names_tel(successCB, errorCB);
+	this.get_all_friends(successCB, errorCB);
 }
 
 localDBManager.prototype.get_all_friends = function(successCB, errorCB)
@@ -436,4 +436,88 @@ localDBManager.prototype.corresponding_tel = function(keyword, tel)
 		return true;
 	}
 	return false;
+}
+
+localDBManager_user = { id : 0,
+	name : "john",
+	surname : "doe",
+	mail : "john.doe@eleves.enpc.fr",
+	tel : "+336128745",
+	lat : 0.,
+	long : 0.,
+	pass : "mot_de_passe"};
+localDBManager_friends = Array(
+		{ id : 1,
+			name : "paran",
+			surname : "arnaud",
+			mail : "paran.arnaud@gmail.com",
+			tel : "+33650544817",
+			lat : 0.1,
+			long : 0.1},
+		{id : 2,
+			name : "lebastard",
+			surname : "simon",
+			mail : "simon.lebastard@eleves.enpc.fr",
+			tel : "+33750332043",
+			lat : 0.2,
+			long : 0.2},
+		{id : 3,
+			name : "gillier",
+			surname : "adele",
+			mail : "adele.gillier@eleves.enpc.fr",
+			tel : "+34567853159",
+			lat : 0.3,
+			long : 0.3},
+		{id : 4,
+			name : "soulier",
+			surname : "eloise",
+			mail : "eloise.soulier@eleves.enpc.fr",
+			tel : "+44865874520",
+			lat : 0.4,
+			long : 0.4}
+		);
+
+localDBManager_events = Array({id : 1,
+			name : "partouze entre amis chez jacquie et michel",
+			creatorId : 2,
+			participants : [1, 2, 3, 4],
+			latitude : 0.,
+			longitude : 0.,
+			address : "Merci qui?",
+			date : "16/09/1993"
+		},
+		{id : 2,
+			name : "forever alone festival",
+			creatorId : 3,
+			participants : [],
+			latitude : 0.,
+			longitude : 0.,
+			address : "lonely island",
+			date : "17/09/1993"
+		});
+
+localDBManager_DB = new localDBManager(populateDB);
+
+function populateDB()
+{
+	localDBManager_DB.set_user_mail_pass(localDBManager_user.mail, localDBManager_user.pass);
+	for (friend of localDBManager_friends) {
+		localDBManager_DB.add_friend(friend.id,
+				friend.name,
+				friend.surname,
+				friend.mail,
+				friend.tel
+				);
+	}
+	for (evt of localDBManager_events) {
+		localDBManager_DB.add_event(evt.id,
+				evt.name,
+				evt.creatorId,
+				evt.participants,
+				evt.latitude,
+				evt.longitude,
+				evt.address,
+				evt.date
+				);
+	}
 }

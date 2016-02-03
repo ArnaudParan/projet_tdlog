@@ -1,0 +1,23 @@
+from .models import Utilisateur
+from .exception import Exception_sans_var, Exception_avec_var
+
+def verifie_user(user, mdp):
+    user = Utilisateur.objects.filter(email=user, mdp_hashe=mdp).first()
+    if user is None:
+        raise Exception_sans_var(1000)
+
+def verifie_mail(email):
+    reg = r'^[A-Za-z0-9]+([_|\.|-]{1}[A-Za-z0-9]+)*@[A-Za-z0-9]+([_|\.|-]{1}[A-Za-z0-9]+)*[\.]{1}[a-z]{2,6}$'
+    if re.match(reg,email) is  None:
+        raise Exception_avec_var(2001, email)
+
+
+def verifie_tel(numero):
+    reg =r'^0[0-9]([ .-]?[0-9]{2}){4}$'
+    #reg =r'^\+?[03]3?[ .-]?[0-9]([ .-]?[0-9]{2}){4}$'
+    if re.match(reg,numero) is None:
+        raise Exception_avec_var(2002, numero)
+
+def verifie_identifiant_user(identifiant):
+    if Utilisateur.objects.filter(id=identifiant).first() is None:
+        raise Exception_avec_var(1003, identifiant)

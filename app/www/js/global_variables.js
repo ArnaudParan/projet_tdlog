@@ -6,8 +6,8 @@
  */
 
 var server_address = "http://server/";
-//var localDB = mock.local.DB;
-var localDB = localDBManager_DB;
+var localDB = mock.local.DB;
+//var localDB = localDBManager_DB;
 var externalDB = mock.external.DB;
 
 var user_mail = localDB.get_user_mail();

@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<link rel="stylesheet" href="css/friends.css">
+
+<script src="js/test_friends.js"></script>
+<script src="js/friends.js"></script>
+
+</head>
+<body ng-app="friends">
+
+
+<div class="center">
+  Friends
+</div>
+<div class="right">
+</div>
+
+
+<div class="navigation-bar">
+  <div class="navigation-bar__center">
+
+    <input type="search" class="search-input" style="width: 96%; margin: 6px auto 6px auto;" placeholder="Search">
+
+  </div>
+</div>
+
+<div ng-controller="f" id='friend_list'>
+<div  ng-repeat="(key,friend) in friends">
+<img src="images/profile-image-0{{i}}.png" class="person-image">
+{{name}} {{surname}} {{tel}}
+</div>
+</div>
+
+</body>
+</html>

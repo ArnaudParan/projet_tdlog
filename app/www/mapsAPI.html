@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<meta charset="utf-8">
+    <style type="text/css">
+      html, body { height: 100%; margin: 0; padding: 0; }
+      #map { height: 100%; }
+    </style>
+  </head>
+  
+  <script type="text/javascript">
+
+  var geocoder;
+  var map;
+  function initialize() {
+    geocoder = new google.maps.Geocoder();
+    var latlng = new google.maps.LatLng(-34.397, 150.644);
+    var mapOptions = {
+      zoom: 8,
+      center: latlng
+    }
+    map = new google.maps.Map(document.getElementById("map"), mapOptions);
+  }
+
+  function codeAddress() {
+    var address = document.getElementById("address").value;
+    geocoder.geocode( { 'address': address}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        map.setCenter(results[0].geometry.location);
+        var marker = new google.maps.Marker({
+            map: map,
+            position: results[0].geometry.location
+        });
+		document.getElementById('position').innerHTML = '<p> Position demandée: ' + results[0].geometry.location + '</p>';
+		console.log(results[0].geometry.location);
+      } else {
+        alert("Geocode was not successful for the following reason: " + status);
+      }
+    });
+  }
+  </script>
+  
+  <body onload="initialize()">
+      <div id="map" style="width: 320px; height: 480px;"></div>
+      <div>
+          <input id="address" type="textbox" value="Sydney, NSW">
+          <input type="button" value="Encode" onclick="codeAddress()">
+      </div>
+	  <div id="position">
+	  <p> Position demandée: </p>
+	  </div>
+  </body>
+  
+  <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKk2RPrKeU9Vf-re1AI7YhcLxXjtsKDKw&callback=initMap">
+  </script>
+</html>

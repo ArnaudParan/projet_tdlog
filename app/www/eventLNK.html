@@ -1,0 +1,220 @@
+<!doctype html>
+<html>
+<head>
+	<!-- Dependances css -->
+	<link rel="stylesheet" href="bower_components/OnsenUI/css/onsenui.css">
+	<link rel="stylesheet" href="bower_components/OnsenUI/css/onsen-css-components-blue-basic-theme.css">
+	<link rel="stylesheet" href="node_modules/ng-datepicker/src/css/ngDatepicker.css">
+	<link rel="stylesheet" href="css/event.css">
+	
+
+	<!-- Dépendances Angularjs / Onsen -->
+	<script src="bower_components/angular/angular.min.js"></script>
+	<script src="bower_components/angular/angular-messages.js"></script>
+	<script src="bower_components/OnsenUI/js/onsenui.min.js"></script>
+	
+	<!-- Dépendances au module ng-datepicker -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment-with-locales.min.js"></script>
+	<script src="node_modules/ng-datepicker/src/js/ngDatepicker.js"></script>
+	
+	<!-- Dépendances au module de l'API Android Maps -->
+	<script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKk2RPrKeU9Vf-re1AI7YhcLxXjtsKDKw&callback=initMap">
+    </script>
+	
+	<!-- Dépendances au mocks -->
+	<script src="js/abstractLocalDB.js"></script>
+	<script src="js/mocks/localDBMock.js"></script>
+	<script src="js/mocks/externalDBMock.js"></script>
+	<script src="js/global_variables.js"></script>
+	
+	<!-- CSP support mode (required for Windows Universal apps) -->
+	<link rel="stylesheet" href="lib/angular/angular-csp.css" />
+
+</head>
+
+<!-- AngularJS driver -->
+<script src="js/event.js"></script>
+	
+<body ng-app = "eventGenerator" ng-controller="eventController" onload="initialize()">
+	<ons-sliding-menu menu-page="menu.html" main-page="eventForm.html" side="left"
+                      var="menu" type="reveal" max-slide-distance="260px" swipeable="true">
+    </ons-sliding-menu>
+
+    <ons-template id="menu.html">
+        <ons-page modifier="menu-page">
+            <ons-toolbar modifier="transparent"></ons-toolbar>
+
+            <ons-list class="menu-list">
+                <ons-list-item class="menu-item" ng-click="menu.setMainPage('eventForm.html', {closeMenu: true})">
+                    <ons-icon icon="fa-calendar"></ons-icon>
+                    L'événement
+                </ons-list-item>
+
+                <ons-list-item class="menu-item" ng-click="menu.setMainPage('eventFriends.html', {closeMenu: true})">
+                    <ons-icon icon="fa-user"></ons-icon>
+                    Ajouter des amis
+                </ons-list-item>
+
+                <ons-list-item class="menu-item" ng-click="menu.setMainPage('eventForm.html', {closeMenu: true})">
+                    <ons-icon icon="fa-facebook" color="blue"></ons-icon>
+                    Promouvoir l'événement
+                </ons-list-item>
+            </ons-list>
+
+            <br>
+
+            <ons-list class="bottom-menu-list">
+			
+                <ons-list-item class="bottom-menu-item" ng-click="menu.setMainPage('eventForm.html', {closeMenu: true})">
+					<ons-icon icon="fa-home" color="blue"></ons-icon>
+					Accueil
+                    <div class="notification menu-notification">2</div>
+                </ons-list-item>
+
+                <ons-list-item class="bottom-menu-item" ng-click="menu.setMainPage('eventForm.html', {closeMenu: true})">
+					<ons-icon icon="fa-gear" color="blue"></ons-icon>
+                    Compte
+				</ons-list-item>
+
+            </ons-list>
+        </ons-page>
+    </ons-template>
+
+    <ons-template id="eventForm.html">
+        <ons-page>
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button ng-click="menu.toggle()">
+                        <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+                <div class="center">Créer un événement</div>
+            </ons-toolbar>
+			
+			<ons-row style="margin-top: 20px; margin-left: 20px;">
+                <ons-col>
+                    <input type="text" class="text-input text-input--underbar" style="width: 96%; margin: 6px auto 6px auto;" placeholder="Titre de l'événement" ng-model='event.title'>
+                </ons-col>
+				
+				<ons-col>
+                    <ng-datepicker ng-model="event.date" placeholder="Entrer un date" class="text-input text-input--underbar">
+					</ng-datepicker>
+                </ons-col>
+            </ons-row>
+			
+			<ons-row style="margin-top: 20px; margin-left: 20px;">
+                <ons-col>
+                    <input type="text" class="text-input text-input--underbar" style="width: 96%; margin: 6px auto 6px auto;" placeholder="Adresse du RDV" ng-model='event.address' id="search_address" ng-keydown="$scope.onKeyDown($event)">
+                </ons-col>
+            </ons-row>
+				
+			<div id="map" style=" margin-left: auto; margin-right: auto; width:350px">
+			</div>
+			
+			<ons-row style="margin-top: 20px; margin-left: 20px;">
+                <ons-col>
+                    <textarea id="event-input" class="textarea textarea--transparent" rows="2" placeholder="Description">
+					</textarea>
+                </ons-col>
+            </ons-row>
+			
+			<ons-row style="margin-top: 20px; margin-left: 20px;">
+                <ons-col>
+					<ons-button modifier="light" ng-click="menu.setMainPage('eventFriends.html', {closeMenu: true})">
+						<ons-icon icon="fa-user-plus" ></ons-icon>
+                        Ajouter des amis
+                    </ons-button>
+                </ons-col>
+            </ons-row>
+			
+	<div id='selected_friend_list'>
+		<ons-list class="friend-list">
+			<ons-list-item class="person" modifier="tappable" ng-repeat="(key,friend) in friends.selected">
+				<ons-row>
+					<ons-col width="40px">
+					</ons-col>
+					<ons-col class="person-name">
+						{{friend.name}} {{friend.surname}}
+					</ons-col>
+					<ons-col class="person-number">
+						{{friend.tel}}
+					</ons-col>
+					<ons-col >
+						{{display_invite_status(key)}}
+					</ons-col>
+					<ons-col>
+						<ons-button>
+							<ons-icon icon="fa-times" ng-click="remove_from_event(key,friend)"></ons-icon>
+						</ons-button>
+					</ons-col>
+				</ons-row>
+			</ons-list-item>
+		</ons-list>
+	</div>
+	
+			<ons-row style="margin-top: 20px; margin-left: 20px;">	
+				<ons-col width = 70px align="center">			
+				<label class="switch">
+					<input type="checkbox" class="switch__input" checked>
+					<span class="switch__toggle"></span>
+				</label>
+				</ons-col>
+				<ons-col align="center">
+				Envoyer des rappels
+				</ons-col>
+            </ons-row>
+			
+			<ons-row style="margin-top: 20px; margin-left: 20px;">			
+				<ons-col>
+					<button class="button button--large">Créer l'événement</button><br>
+                </ons-col>
+            </ons-row>
+			
+        </ons-page>
+    </ons-template>
+
+    <ons-template id="eventFriends.html">
+        <ons-page>
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button ng-click="menu.toggle()">
+                        <ons-icon icon="ion-navicon" size="28px" fixed-width="false"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+                <div class="center">Ajouter des amis à cet événement</div>
+				<div class="right">
+					<ons-toolbar-button ng-click="menu.setMainPage('eventForm.html', {closeMenu: true})">
+						<ons-icon icon="fa-arrow-left"></ons-icon>
+					</ons-toolbar-button>
+				</div>
+            </ons-toolbar>
+			
+	<div class="navigation-bar">
+		<div class="navigation-bar__center">
+			<input type="search" class="search-input" style="width: 96%; margin: 6px auto 6px auto;" placeholder="Search" ng-model='request' ng-change='search_a_friend(request)' >
+			
+		</div>
+	</div>
+	
+	<div id='friend_list'>
+		<ons-list class="person-list">
+			<ons-list-item class="person" modifier="tappable" ng-repeat="(key,friend) in friends.all">
+				<ons-row name="friendsList" ng-click="addFriend2Selection(key,friend)" ng-style="status.style[key]">
+					<ons-col width="40px">
+					</ons-col>
+					<ons-col class="person-name">
+						{{friend.name}} {{friend.surname}}
+					</ons-col>
+					<ons-col class="person-number">
+						{{friend.tel}}
+					</ons-col>
+				</ons-row>
+			</ons-list-item>
+		</ons-list>
+	</div>
+
+        </ons-page>
+    </ons-template>
+</body>
+</html>

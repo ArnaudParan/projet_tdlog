@@ -32,7 +32,7 @@ suite.add_event = function(assert)
 
 	var assertDone = assert.async(1);
 	var evt = {
-		id : 2,
+		id : 3,
 		name : "festival de la verveine menthe",
 		owner : 2,
 		part : [1, 2, 3, 4],
@@ -93,6 +93,20 @@ suite.add_friend = function(assert)
 			expFriend.tel,
 			test_added);
 
+}
+
+suite.get_all_events = function(assert)
+{
+	var suite = test.suites.localDBMock;
+	var vars = suite.vars;
+
+	var evts = vars.events;
+	var assertDone = assert.async(1);
+	vars.DB.get_all_events(function(evt_list)
+			{
+				assert.equal(evt_list.length, evts.length, "all events should be caught");
+				assertDone();
+			});
 }
 
 suite.get_all_friends_names_tel = function(assert)
@@ -191,13 +205,21 @@ suite.setUp = function()
 				0.4, 0.4)
 			);
 
-	vars.events = Array(new mock.local.Event(1,
-				"partouze entre amis chez jacquie et michel",
+	vars.events = Array(
+			new mock.local.Event(1,
+				"L'art dans les productions vidéoludiques françaises",
 				2,
 				[1, 2, 3, 4],
 				new Position(0., 0.),
-				"Merci qui?",
-				"11/11/2011")
+				"Excellente expo! Il faut qu'on la fasse sous très peu!",
+				"05/02/2016"),
+			new mock.local.Event(2,
+				"Cinéma à Châtelet",
+				2,
+				[1, 2, 3, 4],
+				new Position(0., 0.),
+				"Suicide Scquad!",
+				"03/08/2016")			
 			);
 	vars.DB = new mock.local.localDB();
 	vars.DB.user = vars.user;

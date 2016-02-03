@@ -70,6 +70,30 @@ mock.local.localDB.prototype.get_event = function(id, successCB, errorCB)
 	errorCB("event not found") //TODO create exception
 }
 
+mock.local.localDB.prototype.get_all_events = function(successCB, errorCB)
+{
+	errorCB = convertErrorCB(errorCB);
+	result_list = new Array();
+	for (evt of this.events) {
+		var newEvent = new mock.local.Event(
+			evt.id,
+			evt.name,
+			evt.owner,
+			evt.participants,
+			evt.position,
+			evt.address,
+			evt.date
+			);
+		result_list.push(newEvent);
+	}
+	if(result_list.length == this.events.length)
+	{
+		successCB(result_list);
+		return;
+	}
+	errorCB("event not found") //TODO create exception
+}
+
 mock.local.localDB.prototype.add_friend = function(id, name, surname, mail, tel, successCB, errorCB)
 {
 	errorCB = convertErrorCB(errorCB);
@@ -266,13 +290,21 @@ mock.local.friends = Array(
 			0.4)
 		);
 
-mock.local.events = Array(new mock.local.Event(1,
-			"partouze entre amis chez jacquie et michel",
+mock.local.events = Array(
+		new mock.local.Event(1,
+			"L'art dans les productions vidéoludiques françaises",
 			mock.local.friends[2],
 			mock.local.friends,
 			new Position(0., 0.),
-			"Merci qui?",
-			"11/11/2011")
+			"Excellente expo! Il faut qu'on la fasse sous très peu!",
+			"05/02/2016"),
+		new mock.local.Event(2,
+			"Cinéma à Châtelet",
+			2,
+			[1, 2, 3, 4],
+			new Position(0., 0.),
+			"Suicide Scquad!",
+			"03/08/2016")				
 		);
 		
 mock.local.DB = new mock.local.localDB(mock.local.user, mock.local.friends, mock.local.events);

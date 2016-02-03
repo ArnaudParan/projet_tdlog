@@ -66,16 +66,17 @@ mock.external.externalDB.prototype.create_event = function(mail, password, event
     }
 }
 
-mock.external.externalDB.prototype.get_user_id = function(mail, successCB, errorCB)
+mock.local.localDB.prototype.get_my_account_data = function(login, password, successCB, errorCB)
 {
     errorCB = convertErrorCB(errorCB);
+    successCB = convertSuccessCB(successCB);
     for (user of this.users) {
-        if(user.mail == mail){
-            successCB(user.id);
+        if(user.mail == mail && user.password == password){
+            successCB(user);
             return;
         }
     }
-    errorCB("not in db"); //TODO create exception
+    errorCB(new CommonException(1000));
 }
 
 mock.external.externalDB.prototype.search_user = function(mail, password, keywords)
@@ -233,7 +234,7 @@ mock.external.users = Array(
             "simon.lebastard@eleves.enpc.fr",
             "+33750332043",
             0.2, 0.2,
-            "il faut sauver willy"),
+            "youshallnotpass"),
         new mock.external.User(3,
                 "gillier",
                 "adele",

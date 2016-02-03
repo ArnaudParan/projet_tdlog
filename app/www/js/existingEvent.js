@@ -1,4 +1,4 @@
-var eventApp = angular.module('eventGenerator', ['onsen', 'jkuri.datepicker']);
+var eventDisplayer = angular.module('eventDisplayer', ['onsen', 'jkuri.datepicker']);
 
 swipe = function(arr, i, j){
 	var tmp = arr[i];
@@ -35,114 +35,16 @@ codeAddress = function() {
   });
 }
 
-eventDisplayer.controller('eventController', ['$scope', '$rootScope', function($scope, $rootScope) {
-	// Liste des amis de l'utilisateur
-  $scope.friends = {
-	  all: localDB.get_all_friends_names_tel(),
-	  selected: Array(),
-	  };	
-	  
-	  $scope.status = {
-		  selected: selectionArray(),
-		  style: styleArray()
-		  }
-  
-  function selectionArray(){
-	  var ar = Array();    
-	  for (key=0; key < $scope.friends.all.length; key++)
-		  ar[key] = false;
-	  return (ar);
-  }
-  
-    function styleArray(){
-	  var ar = Array();    
-	  for (key=0; key < $scope.friends.all.length; key++)
-		  ar[key] = {"background-color": "#fff"};
-	  return (ar);
-  }
+eventDisplayer.controller('eventController', ['$scope', function($scope) {
 
-  $scope.isSelected = function(key)
+  $scope.event_friends_list = new Array();
+
+  for(id of $scope.active_evt.participants)
   {
-	  return($scope.status.selected[key]);
+    localDB.get_friend_by_id(function(one_of_friends)
+     {
+        $scope.event_friends_list.push(one_of_friends);
+     });
   }
 
-  // Details de l'evenement
-  $scope.event = { title: "", date: new Date(), address: "", latitude: 0., longitude: 0.};
-  
-  // Requete renseignee dans le champ de recherche
-  $scope.request = "";
-  $scope.search_a_friend = function(req){
-	  $scope.friends.all = localDB.search_friends(req);
-  }
-  $scope.addFriend2Selection = function(key,fri){
-	  if(!$scope.isSelected(key))
-	  {
-		$scope.friends.selected.push(fri);
-		$scope.invite.sent.push(false);
-		$scope.invite.accepted.push(false);
-		$scope.status.selected[key] = true;
-		$scope.status.style[key] = {"background-color": "#d9d9d9"};
-	  }
-  }
-  
-  $scope.remove_from_event = function(key, fri){
-	  var len = $scope.friends.selected.length;
-	  for(rk=key; rk < len-1; rk++){
-		  swipe($scope.friends.selected, rk, rk+1)
-		  swipe($scope.invite.sent, rk, rk+1)
-		  swipe($scope.invite.accepted, rk, rk+1)
-	  }
-	  $scope.friends.selected.pop();
-	  $scope.invite.sent.pop();
-	  $scope.invite.accepted.pop();
-	  $scope.status.selected[key] = false;
-	  $scope.status.style[key] = {"background-color": "#fff"};
-  }  
-  
-  $scope.invite = {sent: Array(), accepted: Array()};
-
-  $scope.display_invite_status = function(key){
-	if(key < $scope.friends.selected.length)
-	{
-		if($scope.invite.sent[key])
-		{
-			if($scope.invite.accepted[key])
-				return("Participates");
-			else
-				return("Invite sent");
-		}
-		else
-			return("Sending invite");			
-	}
-  }
-  
-  function update_position_in_controller(){
-	  $scope.event.latitude = search_position[0];
-	  $scope.event.longitude = search_position[1];
-  }
-  
-  $scope.$watch(search_position, update_position_in_controller);
-  
-/*  $scope.createEvent = function()
-  {
-	  var mail = localDB.get_user_mail();
-	  var password = localDB.get_user_password();
-	  var participantsId = Array();
-	  for (friend of friends.selected)
-	  {
-		  his_tel = friend.tel;
-		  his_id = localDB.get_friend_id_by_tel(tel);
-		  participantsId.push(his_id);
-	  }
-	  var this_event = externalDB.create_event(mail, password, $scope.event.title, $scope.event.address, latitude, longitude, participantsId, date)
-  } */
-  
-  $scope.onKeyDown = function ($event) {
-		var key = window.event ? keyEvent.keyCode : keyEvent.which;
-		if(key == 13)
-		{
-			codeAddress();
-		}
-    };
- 
 }])

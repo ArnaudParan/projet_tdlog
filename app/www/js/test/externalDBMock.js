@@ -245,7 +245,7 @@ suite.setUp = function() {
 				"simon.lebastard@eleves.enpc.fr",
 				"+33750332043",
 				0.2, 0.2,
-				"il faut sauver willy"),
+				"youshallnotpass"),
 			new mock.external.User(3,
 				"gillier",
 				"adele",

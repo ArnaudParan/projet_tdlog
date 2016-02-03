@@ -130,6 +130,11 @@ mock.local.localDB.prototype.get_friend_by_id = function(id, successCB, errorCB)
 
 mock.local.localDB.prototype.get_all_friends_names_tel = function(successCB, errorCB)
 {
+	this.get_all_friends(successCB, errorCB);
+}
+
+mock.local.localDB.prototype.get_all_friends = function(successCB, errorCB)
+{
 	errorCB = convertErrorCB(errorCB);
 	var transcripted_friends = Array();
 	for (friend of this.friends) {
@@ -137,6 +142,7 @@ mock.local.localDB.prototype.get_all_friends_names_tel = function(successCB, err
 			id : friend.id,
 			name : friend.name,
 			surname : friend.surname,
+			mail : friend.mail,
 			tel : friend.tel};
 		transcripted_friends.push(current_friend);
 	}

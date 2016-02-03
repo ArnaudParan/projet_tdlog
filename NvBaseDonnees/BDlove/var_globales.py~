@@ -1,0 +1,3 @@
+import blowfish
+
+chiperkey = blowfish.Cipher(b"10Soiscommesimon49cestpasducaca.495)

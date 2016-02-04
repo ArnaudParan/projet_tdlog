@@ -496,7 +496,7 @@ localDBManager_events = Array({id : 1,
 			date : "17/09/1993"
 		});
 
-localDBManager_DB = new localDBManager(populateDB);
+/*localDBManager_DB = new localDBManager(populateDB);
 
 function populateDB()
 {
@@ -521,3 +521,4 @@ function populateDB()
 				);
 	}
 }
+*/

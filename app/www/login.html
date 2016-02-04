@@ -1,3 +1,11 @@
+<!--     Projet TDLog        -->
+<!--Equipe:  Gilier Adèle    -->
+<!--         Lebastard Simon -->
+<!--         Paran Arnaud    -->
+<!--         Soulier Eloise  -->
+<!-- Responsable module:     -->
+<!--         Clerc Xavier    -->
+
 <!doctype html>
 <html lang="fr">
 
@@ -15,7 +23,6 @@
 
   <!-- Dépendances Angularjs / Onsen -->
   <script src="bower_components/angular/angular.min.js"></script>
-  <script src="bower_components/angular-route/angular-route.min.js"></script>
   <script src="bower_components/angular/angular-messages.js"></script>
   <script src="bower_components/OnsenUI/js/onsenui.min.js"></script>
   
@@ -28,7 +35,6 @@
   <script src="js/exceptions.js"></script>
   <script src="js/abstractLocalDB.js"></script>
   <script src="js/abstractExternalDB.js"></script>
-  <script src="js/localDB.js"></script>
   
   <script src="js/mocks/localDBMock.js"></script>
   <script src="js/mocks/externalDBMock.js"></script>
@@ -37,19 +43,20 @@
   
   <!-- AngularJS driver -->
   <script src="js/index.js"></script>
-      
   
   <!-- CSP support mode (required for Windows Universal apps) -->
   <link rel="stylesheet" href="lib/angular/angular-csp.css" />
 
 </head>
 
-<body ng-app="indexModule" ng-controller="globalController">
+<body ng-app="appMod" ng-controller="globalController">
 <ons-navigator animation="slide" var="app.navi">
+
 
 <!--          PAGE MERE            -->
 <!--           Niveau 1            --> 
 <!--      Création de compte       -->
+
 
 	<ons-page>
 		<ons-toolbar>
@@ -76,16 +83,13 @@
 
         <div class="popover popover--up" style="bottom: 20px; left: 190px;">
           <div class="popover__bottom-arrow"></div>
-
-          <div>
-            <div style="text-align:left;
-             opacity: 0.4; margin-top: 40px">
+          <div style="text-align:left;
+      opacity: 0.4; margin-top: 40px">
              For evaluation purposes:
              <br>
              Mail: simon.lebastard@eleves.enpc.fr
              <br>
              Password: youshallnotpass
-            </div>
           </div>
         </div>
   			<br>
@@ -98,23 +102,23 @@
   			</ons-button>
 
   			<div ng-if="save_password">
-				<div class="alert-dialog-mask"></div>
+				  <div class="alert-dialog-mask"></div>
 
-				<div class="alert-dialog">
-  				<div class="alert-dialog-title">
-  					Saving captain password!
-  				</div>
+				  <div class="alert-dialog">
+  				  <div class="alert-dialog-title">
+  					 Saving captain password!
+  				  </div>
 
-  				<div class="alert-dialog-content">
-    				As we are still working on our app, please send a mail at simon.lebastard@eleves.enpc.fr to ask for your password or change it into something else. And make sure you remember it next time, you silly piece of shit!
-  				</div>
+  				  <div class="alert-dialog-content">
+    				  As we are still working on our app, please send a mail at simon.lebastard@eleves.enpc.fr to ask for your password or change it into something else. And make sure you remember it next time, you messy!
+  				  </div>
 
-  				<div class="alert-dialog-footer">
-    				<button class="alert-dialog-button
-      				alert-dialog-button--primal" ng-click="save_password_switch()">
-      					Got it!
-      			</button>
-  				</div>
+  				  <div class="alert-dialog-footer">
+    				  <button class="alert-dialog-button
+      				  alert-dialog-button--primal" ng-click="save_password_switch()">
+      					 Got it!
+      			 </button>
+  				  </div>
 			   </div>
 		  </div>
 		</div>
@@ -125,11 +129,9 @@
 <!--           Niveau 1            --> 
 <!--      Création de compte       -->
 
-
-<ons-template id="signupt.html">
+<ons-template id="signupt.html" ng-controller="signup_form">
   <link rel="stylesheet" href="css/signup.css">
-	<script src="js/signup.js"></script>
-	<ons-page ng-app="Signup">
+	<ons-page>
 	 <ons-toolbar>
 		<div class="left">
   			<span class="toolbar-button--quiet navigation-bar__line-height">
@@ -142,7 +144,7 @@
     </div>
 	 </ons-toolbar>
 
-<div class="formarea" ng-controller="signup_form">
+<div class="formarea">
   <div class="form-row">
     <input ng-model="name" type="text" class="text-input--underbar width-half" placeholder="Name" value="">
     <input ng-model="surname" type="text" class="text-input--underbar width-half" placeholder="Surname" value="" style="border-width-left: 1px">
@@ -171,7 +173,9 @@
   </div>
 </div>
 
-<div ng-if="has_signed_up">
+<!-- POP-UP: Account was created -->
+
+<div ng-if="has_signed_up && sign_up_valid">
   <div class="alert-dialog-mask"></div>
 
   <div class="alert-dialog">
@@ -192,7 +196,9 @@
   </div>
 </div>
 
-  <div ng-if="has_signed_up && sign_up_valid">
+<!-- POP-UP: Account creation failure -->
+
+  <div ng-if="has_signed_up && !(sign_up_valid)">
     <div class="alert-dialog-mask"></div>
 
     <div class="alert-dialog">
@@ -201,7 +207,15 @@
         </div>
 
         <div class="alert-dialog-content">
-          Your account was successfully created. Yay! Now all you have to do is check out your email address for our mail. You'll have to activate your account through this mail, and then you can create all the bigass event you want and invite your awesome friends to join in! You can activate your account later, but you won't be able to create any event before you do so!
+          Oups! Looks like something went wrong when trying to create your account
+        </div>
+
+        <div class="alert-dialog-content" ng-if="$scope.wrong_mail">
+          The email address you filled in is not correct
+        </div>
+
+        <div class="alert-dialog-content" ng-if="$scope.wrong_tel">
+          The tel number you filled in is not correct
         </div>
 
         <div class="alert-dialog-footer">
@@ -216,18 +230,24 @@
 </ons-page>
 </ons-template>
 
+<!-- End pop-up -->
+
+
 <!--       BRANCHE PRINCIPALE      -->
+
 
 <!--       Branche principale      -->
 <!--           Niveau 1            --> 
 <!--          Page d'accueil       -->
 
+
 <ons-template id="index.html" onload="initialize()">
   <link rel="stylesheet" href="css/index.css">
-  <script src="js/index.js"></script>
-<ons-page>  
+<ons-page> 
+
     
     <!-- Barre d'onglets -->
+    
   <div class="navigation-bar">
     <div class="navigation-bar__left">
       <span class="toolbar-button--quiet navigation-bar__line-height">
@@ -262,8 +282,9 @@
       </button>
     </label>
   </div>
-  
+
   <!-- Map -->
+  
   <div id="map"></div>
   <script>
       var map;
@@ -275,6 +296,7 @@
       }
   </script>
   <!-- Dépendances au module de l'API Android Maps -->
+  
   <script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKk2RPrKeU9Vf-re1AI7YhcLxXjtsKDKw&callback=initMap">
   </script>
@@ -298,6 +320,7 @@
   </ons-row>
   
   <!-- Evenements en cours - Barre à déployer -->
+  
   <ons-list class="list">
     <ons-list-item class="list__header">
       Événements à venir
@@ -316,6 +339,7 @@
 
   
   <!-- Créer un événement -->
+  
   <ons-row>
     <button class="button button--large" ng-click="app.navi.pushPage('eventForm.html');">
       Créer un nouvel événement
@@ -324,16 +348,16 @@
   
   </ons-page>
 
+
+
 <!--       Branche principale      -->
 <!--           Niveau 2            --> 
 <!--    Création d'un événement    --> 
 
-  <ons-template id="eventForm.html" onload="initialize()" ng-app="eventGenerator" ng-controller="eventController">
+
+  <ons-template id="eventForm.html" onload="initialize()" ng-controller="eventController">
     <link rel="stylesheet" href="css/event.css">
-    <script src="js/event.js"></script>
     <ons-page>
-      <link rel="stylesheet" href="css/event.css">
-      <script src="js/event.js"></script>
       <ons-toolbar>
         <div class="left">
           <ons-toolbar-button ng-click="app.navi.popPage()">
@@ -429,10 +453,9 @@
 
   <!-- TEMPLATE AJOUT D'AMIS POUR CREATION D'EVENEMENT -->
 
-  <ons-template id="eventFriends.html" ng-app="eventGenerator" ng-controller="eventController">
+  <ons-template id="eventFriends.html" ng-controller="eventController">
     <ons-page>
       <link rel="stylesheet" href="css/event.css">
-      <script src="js/event.js"></script>
       <ons-toolbar>
         <div class="center">
           Ajouter des amis à cet événement
@@ -470,14 +493,16 @@
     </ons-page>
   </ons-template>
 
+
+
 <!--       Branche principale      -->
 <!--           Niveau 3            --> 
 <!-- Consultation d'un événement   --> 
 
-  <ons-template id="existingEvent.html">
-    <script src="js/existingEvent.js"></script>
+
+  <ons-template id="existingEvent.html" ng-controller="eventConsController">
     <link rel="stylesheet" href="css/existingEvent.css">
-    <ons-page ng-controller="modEventController">
+    <ons-page>
       <ons-toolbar>
         <div class="left">
           <ons-toolbar-button ng-click="app.navi.popPage()">
@@ -580,7 +605,7 @@
           </div>
 
           <div class="alert-dialog-content">
-            You are currently not granted the right to change that event. To do s
+            You are currently not granted the right to change that event. To do so you can send a request to {{active_evt.owner.name}}
           </div>
 
           <div class="alert-dialog-footer">

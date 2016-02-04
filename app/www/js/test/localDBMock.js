@@ -206,21 +206,21 @@ suite.setUp = function()
 			);
 
 	vars.events = Array(
-			new mock.local.Event(1,
-				"L'art dans les productions vidéoludiques françaises",
-				2,
-				[1, 2, 3, 4],
-				new Position(0., 0.),
-				"Excellente expo! Il faut qu'on la fasse sous très peu!",
-				"05/02/2016"),
-			new mock.local.Event(2,
-				"Cinéma à Châtelet",
-				2,
-				[1, 2, 3, 4],
-				new Position(0., 0.),
-				"Suicide Scquad!",
-				"03/08/2016")			
-			);
+		new mock.local.Event(1,
+			"L'art dans les productions vidéoludiques françaises",
+			mock.local.friends[2],
+			mock.local.friends,
+			new Position(0., 0.),
+			"25 Quai d'Austerlitz",
+			"05/02/2016"),
+		new mock.local.Event(2,
+			"Cinéma à Châtelet",
+			2,
+			[1, 2, 3, 4],
+			new Position(0., 0.),
+			"Gaumont Les Halles",
+			"03/08/2016")				
+		);
 	vars.DB = new mock.local.localDB();
 	vars.DB.user = vars.user;
 	vars.DB.friends = vars.friends;

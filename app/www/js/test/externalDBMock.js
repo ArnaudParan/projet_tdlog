@@ -225,42 +225,42 @@ suite.setUp = function() {
 	var vars = suite.vars;
 
 	vars.users = Array(
-			new mock.external.User(0,
-				"john",
-				"doe",
-				"john.doe@eleves.enpc.fr",
-				"+336128745",
-				0., 0.,
-				"mot_de_passe"),
-			new mock.external.User(1,
-				"paran",
-				"arnaud",
-				"paran.arnaud@gmail.com",
-				"+33650544817",
-				0.1, 0.1,
-				"pass de merde"),
-			new mock.external.User(2,
-				"lebastard",
-				"simon",
-				"simon.lebastard@eleves.enpc.fr",
-				"+33750332043",
-				0.2, 0.2,
-				"youshallnotpass"),
-			new mock.external.User(3,
-				"gillier",
-				"adele",
-				"adele.gillier@eleves.enpc.fr",
-				"+34567853159",
-				0.3, 0.3,
-				"gros boobs"),
-			new mock.external.User(4,
-				"soulier",
-				"eloise",
-				"eloise.soulier@eleves.enpc.fr",
-				"+44865874520",
-				0.4, 0.4,
-				"julien deur")
-			);
+        new mock.external.User(0,
+            "john",
+            "doe",
+            "john.doe@eleves.enpc.fr",
+            "+336128745",
+            0., 0.,
+            "mot_de_passe"),
+        new mock.external.User(1,
+            "paran",
+            "arnaud",
+            "paran.arnaud@gmail.com",
+            "+33650544817",
+            0.1, 0.1,
+            "captainjoke"),
+        new mock.external.User(2,
+            "lebastard",
+            "simon",
+            "simon.lebastard@eleves.enpc.fr",
+            "+33750332043",
+            0.2, 0.2,
+            "youshallnotpass"),
+        new mock.external.User(3,
+                "gillier",
+                "adele",
+                "adele.gillier@eleves.enpc.fr",
+                "+34567853159",
+                0.3, 0.3,
+                "vicose"),
+        new mock.external.User(4,
+                "soulier",
+                "eloise",
+                "eloise.soulier@eleves.enpc.fr",
+                "+44865874520",
+                0.4, 0.4,
+                "deurdeurcoeur")
+        );
 
 	vars.users[0].friends_id = [1, 2, 3, 4];
 	vars.users[1].friends_id = [0, 2];
@@ -268,14 +268,23 @@ suite.setUp = function() {
 	vars.users[3].friends_id = [0, 4];
 	vars.users[4].friends_id = [0, 3];
 
-	vars.events = Array(new mock.external.Event(1,
-				"partouze entre amis chez jacquie et michel",
-				2,
-				[1,2,3,4],
-				new Position(0., 0.),
-				"Merci qui?",
-				"16/09/1993")
-			);
+	vars.events = Array(
+        new mock.local.Event(1,
+            "L'art dans les productions vidéoludiques françaises",
+            mock.local.friends[2],
+            mock.local.friends,
+            new Position(0., 0.),
+            "25 Quai d'Austerlitz",
+            "05/02/2016"),
+        new mock.local.Event(2,
+            "Cinéma à Châtelet",
+            2,
+            [1, 2, 3, 4],
+            new Position(0., 0.),
+            "Gaumont Les Halles",
+            "03/08/2016")               
+        );
+	
 	vars.DB = new mock.external.externalDB();
 	vars.DB.currentId = 4;
 	vars.DB.users = vars.users;

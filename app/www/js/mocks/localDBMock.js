@@ -302,14 +302,14 @@ mock.local.events = Array(
 			mock.local.friends[2],
 			mock.local.friends,
 			new Position(0., 0.),
-			"Excellente expo! Il faut qu'on la fasse sous très peu!",
+			"25 Quai d'Austerlitz",
 			"05/02/2016"),
 		new mock.local.Event(2,
 			"Cinéma à Châtelet",
 			2,
 			[1, 2, 3, 4],
 			new Position(0., 0.),
-			"Suicide Scquad!",
+			"Gaumont Les Halles",
 			"03/08/2016")				
 		);
 		

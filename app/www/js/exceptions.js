@@ -4,9 +4,10 @@
 var code_to_message = {
 	1000 : "Incorrect mail or password in login attempt.",
 	1001 : "You have tried to add one user which already exists.",
-	1002 : "You've tried to create a new user with an incorrect tel or mail",
+	1002 : "You've tried to create a new user with an incorrect mail",
 	1003 : "The user you've searched doesn't exist",
 	1004 : "Unable to create the event",
+	1005 : "You've tried to create a new user with an incorrect tel",
 	2000 : "Unable to create the user database",
 	2001 : "Not an email while an email was required",
 	2002 : "Friend information that was provided doesn't match friends list",

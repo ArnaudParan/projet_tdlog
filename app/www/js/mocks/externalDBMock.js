@@ -120,8 +120,12 @@ mock.external.externalDB.prototype.add_user = function(name, surname, mail, tel,
         }
     }
 
-    if (!(this.is_mail(mail) && this.is_tel(tel))) {
+    if (!this.is_mail(mail)) {
         errorCB(new CommonException(1002));
+        return;
+    }
+    if (!this.is_tel(tel)) {
+        errorCB(new CommonException(1005));
         return;
     }
 
@@ -227,7 +231,7 @@ mock.external.users = Array(
             "paran.arnaud@gmail.com",
             "+33650544817",
             0.1, 0.1,
-            "pass de merde"),
+            "captainjoke"),
         new mock.external.User(2,
             "lebastard",
             "simon",
@@ -241,14 +245,14 @@ mock.external.users = Array(
                 "adele.gillier@eleves.enpc.fr",
                 "+34567853159",
                 0.3, 0.3,
-                "gros boobs"),
+                "vicose"),
         new mock.external.User(4,
                 "soulier",
                 "eloise",
                 "eloise.soulier@eleves.enpc.fr",
                 "+44865874520",
                 0.4, 0.4,
-                "julien deur")
+                "deurdeurcoeur")
         );
 
         mock.external.users[0].friends_id = [1, 2, 3, 4];
@@ -257,14 +261,22 @@ mock.external.users = Array(
         mock.external.users[3].friends_id = [0, 4];
         mock.external.users[4].friends_id = [0, 3];
 
-        mock.external.events = Array(new mock.external.Event(1,
-                    "partouze entre amis chez jacquie et michel",
-                    mock.external.users[2],
-                    mock.external.users,
-                    new Position(0., 0.),
-                    "Merci qui?",
-                    "16/09/1993")
-                );
+        mock.external.events = Array(
+        new mock.local.Event(1,
+            "L'art dans les productions vidéoludiques françaises",
+            mock.local.friends[2],
+            mock.local.friends,
+            new Position(0., 0.),
+            "25 Quai d'Austerlitz",
+            "05/02/2016"),
+        new mock.local.Event(2,
+            "Cinéma à Châtelet",
+            2,
+            [1, 2, 3, 4],
+            new Position(0., 0.),
+            "Gaumont Les Halles",
+            "03/08/2016")               
+        );
 
         mock.external.DB = new mock.external.externalDB();
 
